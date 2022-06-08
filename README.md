@@ -48,7 +48,7 @@
 
 ## ⚙️ 实现方式
 ### 1. 实现方式
-本 DEMO 使用了 Uniapp 中的 [插件功能]([https://nativesupport.dcloud.net.cn/NativePlugin/course/android](https://nativesupport.dcloud.net.cn/NativePlugin/course/android?id=%e6%8f%92%e4%bb%b6%e5%bc%80%e5%8f%91)) 集成 FinClip SDK，实现在 Uniapp 导出的 App 中运行 FinClip 小程序。
+本 DEMO 使用了 Uniapp 中的 [插件功能](https://nativesupport.dcloud.net.cn/NativePlugin/course/android?id=%e6%8f%92%e4%bb%b6%e5%bc%80%e5%8f%91) 集成 FinClip SDK，实现在 Uniapp 导出的 App 中运行 FinClip 小程序。
 
 <div align="center">
     <img src="./doc/images/案例01.jpeg" width="200" />
@@ -56,7 +56,7 @@
 </div>
 
 ### 2. 实现原理
-本项目资源使用`HBuilderX 3.4.7.20220422`开发，只集成了`FinClip 核心SDK`,如需要更多功能，可使用 iOS/Android 原工程重新生成插件。
+本项目资源使用`HBuilderX 3.4.7.20220422`开发，只集成了`FinClip 核心SDK`，如需要更多功能，可使用 iOS/Android 原工程重新生成插件。
 
 ### 3. 插件架构
 <div align="center">
