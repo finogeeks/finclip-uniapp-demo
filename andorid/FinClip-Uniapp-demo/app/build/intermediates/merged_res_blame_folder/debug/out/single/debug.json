@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/Users/yangbin/work/finogeeks/newspace/FinClip-Uniapp/FinClip-Uniapp-demo/app/build/intermediates/res/merged/debug/drawable_push.png.flat",
+        "source": "/Users/yangbin/work/finogeeks/newspace/FinClip-Uniapp/FinClip-Uniapp-demo/app/src/main/res/drawable/push.png"
+    },
+    {
+        "merged": "/Users/yangbin/work/finogeeks/newspace/FinClip-Uniapp/FinClip-Uniapp-demo/app/build/intermediates/res/merged/debug/drawable_splash.png.flat",
+        "source": "/Users/yangbin/work/finogeeks/newspace/FinClip-Uniapp/FinClip-Uniapp-demo/app/src/main/res/drawable/splash.png"
+    },
+    {
+        "merged": "/Users/yangbin/work/finogeeks/newspace/FinClip-Uniapp/FinClip-Uniapp-demo/app/build/intermediates/res/merged/debug/drawable_icon.png.flat",
+        "source": "/Users/yangbin/work/finogeeks/newspace/FinClip-Uniapp/FinClip-Uniapp-demo/app/src/main/res/drawable/icon.png"
+    }
+]

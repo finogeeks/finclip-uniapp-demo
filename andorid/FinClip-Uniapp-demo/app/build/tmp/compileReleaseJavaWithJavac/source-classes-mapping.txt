@@ -1,0 +1,2 @@
+com/android/simple/BuildConfig.java
+ com.android.simple.BuildConfig

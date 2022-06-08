@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.finogeeks.test.app"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="32" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--
+    <uses-permission
+        android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    -->
+    <!-- 华为修改角标需要设置权限 -->
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" /> <!-- vivo 修改角标需要设置权限 -->
+    <uses-permission android:name="com.vivo.notification.permission.BADGE_ICON" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent>
+    </queries>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.asus.msa.SupplementaryDID.ACCESS" />
+    <uses-permission android:name="freemme.permission.msa" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 后台播放音频需要 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <permission
+        android:name="com.finogeeks.test.app.permission.FIN_APPLET_RECEIVER"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.finogeeks.test.app.permission.FIN_APPLET_RECEIVER" /> <!-- 访问CellID或WiFi热点来获取精确的位置 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 访问CellID或WiFi热点来获取粗略的位置 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:name="io.dcloud.application.DCloudApplication"
+        android:allowBackup="true"
+        android:allowClearUserData="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:debuggable="true"
+        android:extractNativeLibs="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:testOnly="true"
+        android:theme="@style/FinAppletTheme"
+        android:usesCleartextTraffic="true" >
+        <activity
+            android:name="io.dcloud.PandoraEntry"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:theme="@style/TranslucentTheme"
+            android:windowSoftInputMode="adjustResize" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="io.dcloud.PandoraEntryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|mcc|mnc|fontScale|keyboard|smallestScreenSize|screenLayout|screenSize"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
+            android:permission="com.miui.securitycenter.permission.AppPermissionsEditor"
+            android:screenOrientation="user"
+            android:theme="@style/DCloudTheme"
+            android:windowSoftInputMode="adjustResize" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <data android:scheme="h56131bcf" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="dcloud_appkey"
+            android:value="2ecb850a32c9250ffb25ae66ce4fde2a" />
+        <!--
+        <activity
+            android:name="io.dcloud.imagepick.CustomGalleryActivity"
+            android:noHistory="true"
+            android:exported="false"/>
+        -->
+        <activity
+            android:name="io.dcloud.feature.nativeObj.photoview.PhotoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
+            android:noHistory="false"
+            android:screenOrientation="behind"
+            android:theme="@style/DeviceDefault.Light" />
+        <activity
+            android:name="io.dcloud.WebAppActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|smallestScreenSize|screenLayout|screenSize|mcc|mnc|fontScale|navigation"
+            android:hardwareAccelerated="true"
+            android:icon="@drawable/dcloud_recent"
+            android:label="@string/stream_my"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/DCloudTheme"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="io.dcloud.ProcessMediator"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="io.dcloud.WebviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeNoTitleBar"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+
+        <receiver
+            android:name="io.dcloud.common.adapter.io.DownloadReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+
+                <data android:scheme="package" /> <!-- HERE! -->
+            </intent-filter>
+        </receiver> <!-- gallery******start -->
+        <activity
+            android:name="com.dmcbig.mediapicker.PickerActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:theme="@style/DeviceDefault.Light"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="com.dmcbig.mediapicker.PreviewActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:theme="@style/DeviceDefault.Light"
+            android:windowSoftInputMode="stateAlwaysHidden" /> <!-- gallery******end -->
+        <provider
+            android:name="io.dcloud.common.util.DCloud_FileProvider"
+            android:authorities="com.finogeeks.test.app.dc.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/dcloud_file_provider" />
+        </provider>
+        <!--
+            <meta-data
+            android:name="DCLOUD_STREAMAPP_CHANNEL"
+            android:value="io.dcloud.%APPID%|%APPID%|" />
+        -->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
+
+        <activity
+            android:name="io.dcloud.feature.gallery.imageedit.IMGEditActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:theme="@style/ImageEditTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <service
+            android:name="io.dcloud.ads.base.service.DownloadService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver
+            android:name="com.taobao.weex.WXGlobalEventReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+
+        <service android:name="com.finogeeks.lib.applet.remote.ExtensionApiService" />
+        <service android:name="com.finogeeks.lib.applet.remote.ExtensionWebApiService" />
+        <service
+            android:name="com.finogeeks.lib.applet.ipc.FinAppAIDLService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="com.finogeeks.test.app.permission.APP_AIDL_SERVER" >
+            <intent-filter>
+                <action android:name="com.finogeeks.test.app.action.APP_AIDL_SERVER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service android:name="com.finogeeks.lib.applet.modules.service.ForegroundService" />
+        <service
+            android:name="com.finogeeks.lib.applet.media.video.server.PlayerService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":media" />
+
+        <activity
+            android:name="com.finogeeks.lib.applet.main.FinAppHomeActivity$AppHome0"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
+            android:process=":FinApp0"
+            android:taskAffinity=".com.finogeeks.test.app.FinApp0"
+            android:theme="@style/FinAppletTheme"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.finogeeks.lib.applet.main.FinAppHomeActivity$AppHome1"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
+            android:process=":FinApp1"
+            android:taskAffinity=".com.finogeeks.test.app.FinApp1"
+            android:theme="@style/FinAppletTheme"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.finogeeks.lib.applet.main.FinAppHomeActivity$AppHome2"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
+            android:process=":FinApp2"
+            android:taskAffinity=".com.finogeeks.test.app.FinApp2"
+            android:theme="@style/FinAppletTheme"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.finogeeks.lib.applet.main.FinAppHomeActivity$AppHome3"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
+            android:process=":FinApp3"
+            android:taskAffinity=".com.finogeeks.test.app.FinApp3"
+            android:theme="@style/FinAppletTheme"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.finogeeks.lib.applet.main.FinAppHomeActivity$AppHome4"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
+            android:process=":FinApp4"
+            android:taskAffinity=".com.finogeeks.test.app.FinApp4"
+            android:theme="@style/FinAppletTheme"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.finogeeks.lib.applet.scancode.ui.activity.ScanCaptureActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/FinAppletTheme" />
+        <activity
+            android:name="com.finogeeks.lib.applet.modules.mediaviewer.MediaViewerActivity"
+            android:configChanges="orientation|screenSize"
+            android:multiprocess="true"
+            android:theme="@style/FinAppletTheme.MediaViewerActivity" />
+        <activity
+            android:name="com.finogeeks.lib.applet.modules.documentviewer.DocumentViewerActivity"
+            android:configChanges="orientation|screenSize"
+            android:multiprocess="true"
+            android:theme="@style/FinAppletTheme" />
+        <activity
+            android:name="com.finogeeks.lib.applet.modules.about.AboutAppletActivity"
+            android:configChanges="orientation|screenSize"
+            android:multiprocess="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/FinAppletTheme" />
+        <activity
+            android:name="com.finogeeks.lib.applet.modules.urlrouter.UrlRouterActivity"
+            android:configChanges="orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:theme="@style/FinAppletTranslucentTheme" >
+            <intent-filter android:label="@string/app_name" >
+                <data android:scheme="@string/fin_applet_router_url_scheme" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.finogeeks.lib.applet.modules.webview.WebViewActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/fin_applet_more_menu_feedback_and_complaint"
+            android:multiprocess="true"
+            android:theme="@style/FinAppletTheme" />
+        <activity
+            android:name="com.finogeeks.lib.applet.modules.store.FinAppletTypeInfoActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/FinAppletTheme" />
+        <activity
+            android:name="com.finogeeks.lib.applet.modules.applet_scope.ui.AppletScopeSettingActivity"
+            android:configChanges="orientation|screenSize"
+            android:multiprocess="true"
+            android:theme="@style/FinAppletTheme" />
+
+        <provider
+            android:name="com.finogeeks.lib.applet.modules.provider.FinAppletFileProvider"
+            android:authorities="com.finogeeks.test.app.finapplet.provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fin_applet_provider_paths" />
+        </provider>
+
+        <receiver
+            android:name="com.finogeeks.lib.applet.media.video.server.RemoteControlReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name="com.finogeeks.mop.plugins.externallibs.recorderlib.recorder.RecordService"
+            android:exported="false" />
+    </application>
+
+</manifest>
