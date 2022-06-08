@@ -65,7 +65,7 @@
 
 
 ## 📋 集成文档
-[点击这里](https://www.finclip.com/mop/document/runtime-sdk/uniapp/integrate.html) 查看快速集成文档
+[点击这里](https://www.finclip.com/mop/document/runtime-sdk/uniapp/un-integrate.html) 查看快速集成文档
 
 ## 🔗 常用链接
 以下内容是您在 FinClip 进行开发与体验时，常见的问题与指引信息
