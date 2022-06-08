@@ -58,7 +58,6 @@
 ### 2. 实现原理
 本项目资源使用`HBuilderX 3.4.7.20220422`开发，只集成了`FinClip 核心SDK`，如需要更多功能，可使用 iOS/Android 原工程重新生成插件。
 
-### 3. 插件架构
 <div align="center">
     <img src="./doc/images/架构.png" width="500" />
 </div>
