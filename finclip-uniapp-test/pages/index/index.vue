@@ -21,24 +21,27 @@
 		methods: {
 			handleOpenMiniProgram() {
 				const apiServer = 'https://api.finclip.com'
-				const appId = '5eec56a41464cc0001852e9a'
+				const appId = '62566cbd3eb8ce0001b7761c'
 				const startParams = null
 				// const startParams = {
 				// 	path: '/pages/index/index',
 				// 	query: 'a=1&b=2'
 				// }
 				const sequence = null // 小程序的上架序列号
-				MopSdk.openApplet(apiServer,
-				                  appId,
-								  startParams,
-								  sequence)
+				const isSingleton = false
+				MopSdk.openApplet({apiServer,
+				                   appId,
+								   startParams,
+								   sequence,
+								   isSingleton})
 			},
 			handleOpenMiniProgramByQrcode() {
 				uni.scanCode({
 					success: (result) => {
 						console.log(result)
-						const qrcode = result.result
-						MopSdk.openAppletByQrcode(qrcode,
+						const qrCode = result.result
+						const isSingleton = false
+						MopSdk.openAppletByQrcode({qrCode,isSingleton},
 						                  (ret) => {
 											  console.log('onSuccess',ret)	
 										  },

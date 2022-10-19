@@ -80,6 +80,11 @@
 @interface FATCapsuleConfig : NSObject
 
 /**
+ 隐藏小程序启动后胶囊里的关闭小程序按钮，默认为NO
+ */
+@property (nonatomic, assign) BOOL hideCapsuleCloseButton;
+
+/**
  右上角胶囊视图的宽度，默认值为88
  */
 @property (nonatomic, assign) CGFloat capsuleWidth;
@@ -123,6 +128,28 @@
  胶囊里的关闭按钮的左边距
  */
 @property (nonatomic, assign) CGFloat closeBtnLeftMargin;
+
+/**
+ 胶囊里的浅色定位按钮的图片对象，如果不传，会使用默认图标
+ （暗黑模式）
+ */
+@property (nonatomic, strong) UIImage *locationLightImage;
+
+/**
+ 胶囊里的深色定位按钮的图片对象，如果不传，会使用默认图标
+ */
+@property (nonatomic, strong) UIImage *locationDarkImage;
+
+/**
+ 胶囊里的浅色麦克风按钮的图片对象，如果不传，会使用默认图标
+ （暗黑模式）
+ */
+@property (nonatomic, strong) UIImage *microphoneLightImage;
+
+/**
+ 胶囊里的深色麦克风按钮的图片对象，如果不传，会使用默认图标
+ */
+@property (nonatomic, strong) UIImage *microphoneDarkImage;
 
 /**
  胶囊里的浅色更多按钮的图片对象，如果不传，会使用默认图标
@@ -193,6 +220,11 @@
 @property (nonatomic, strong) NSDictionary<NSAttributedStringKey, id> *navigationTitleTextAttributes;
 
 /**
+ 导航栏的的高度(不含状态栏高度)，默认值为44
+ */
+@property (nonatomic, assign) CGFloat navigationHeight;
+
+/**
  右上角胶囊的配置
  */
 @property (nonatomic, strong) FATCapsuleConfig *capsuleConfig;
@@ -202,9 +234,21 @@
 @property (nonatomic, strong) FATNavHomeConfig *navHomeConfig;
 
 /**
+ 导航栏返回按钮的图片对象，如果不传，会使用默认图标
+ 图片必须是png格式且背景透明
+ 明亮模式下，图片显示为黑色；暗黑模式下，图片显示为白色
+ */
+@property (nonatomic, strong) UIImage *navigationBackImage;
+
+/**
  小程序里加载H5时进度条的颜色
  */
 @property (nonatomic, strong) UIColor *progressBarColor;
+
+/**
+ 隐藏小程序里加载H5时进度条，默认为NO
+ */
+@property (nonatomic, assign) BOOL hideWebViewProgressBar;
 
 /**
  ... 弹出的菜单视图的样式
@@ -212,9 +256,15 @@
 @property (nonatomic, assign) FATMoreViewStyle moreMenuStyle;
 
 /**
- 隐藏...导航栏中的返回首页按钮，默认为NO
+ 隐藏...导航栏中的返回首页按钮（全局配置），默认为NO
  */
 @property (nonatomic, assign) BOOL hideBackToHome;
+
+/**
+ 隐藏导航栏返回首页按钮的优先级设置，默认全局配置优先
+ 不支持FATConfigAppletFilePriority
+ */
+@property (nonatomic, assign) FATConfigPriority hideBackToHomePriority;
 
 /**
  隐藏...弹出菜单中的 【反馈与投诉】 的菜单，默认为NO
@@ -225,6 +275,11 @@
  隐藏...弹出菜单中的 【转发】 的菜单，默认为NO
  */
 @property (nonatomic, assign) BOOL hideForwardMenu;
+
+/**
+ 隐藏...弹出菜单中的 【重新进入小程序】 的菜单，默认为NO
+ */
+@property (nonatomic, assign) BOOL hideRefreshMenu;
 
 /**
  隐藏...弹出菜单中的 【设置】 的菜单，默认为NO
@@ -246,6 +301,15 @@
  注入小程序统称appletText字符串，默认为“小程序”。
 */
 @property (nonatomic, copy) NSString *appletText;
+
+/**
+ 打开小程序时的默认动画方式，默认为FATTranstionStyleUp。
+ 该属性主要针对非api方式打开小程序时的动画缺省值。主要改变如下场景的动画方式：
+ 1. scheme 打开小程序；
+ 2. universal link 打开小程序；
+ 3. navigateToMiniprogram
+ */
+@property (nonatomic, assign) FATTranstionStyle transtionStyle;
 
 /**
  是否隐藏转场页的关闭按钮。默认为NO

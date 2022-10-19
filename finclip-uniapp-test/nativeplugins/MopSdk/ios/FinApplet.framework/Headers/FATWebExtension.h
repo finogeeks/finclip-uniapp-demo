@@ -10,6 +10,19 @@
 
 #import "FATConstant.h"
 
+@class FATAppletInfo;
+
+typedef void (^FATWebExtensionApiHandler)(FATAppletInfo *appletInfo, id param, FATExtensionApiCallback callback);
+typedef void (^FATWebExtensionApiDeprecatedHandler)(id param, FATExtensionApiCallback callback);
+
+@interface FATWebExtensionApiHandlerModel : NSObject
+
+@property (nonatomic, assign) BOOL isOld;
+@property (nonatomic, copy) FATWebExtensionApiHandler handler;
+@property (nonatomic, copy) FATWebExtensionApiDeprecatedHandler deprecatedHandler;
+
+@end
+
 @interface FATWebExtension : NSObject
 
 /**
@@ -18,8 +31,20 @@
  @param api API名
  @param handler 回调
  */
-+ (void)registerExtensionApi:(NSString *)api handler:(void (^)(id param, FATExtensionApiCallback callback))handler;
++ (BOOL)registerExtensionApi:(NSString *)api handler:(FATWebExtensionApiHandler)handler;
 
-+ (NSDictionary *)webExtensionApis;
+/**
+ 为JS注册原生API(内部sdk注入，加入到默认白名单)
+ 宿主注册需要自定义实现的API
+ @param api API名
+ @param handler 回调
+ */
++ (BOOL)registerInnerExtensionApi:(NSString *)api handler:(FATWebExtensionApiHandler)handler;
+
++ (BOOL)registerDeprecatedExtensionApi:(NSString *)api handler:(FATWebExtensionApiDeprecatedHandler)handler;
+
++ (NSDictionary<NSString *, FATWebExtensionApiHandlerModel *> *)webExtensionApis;
+
++ (NSMutableArray<NSString *> *)innerApiWhiteList;
 
 @end

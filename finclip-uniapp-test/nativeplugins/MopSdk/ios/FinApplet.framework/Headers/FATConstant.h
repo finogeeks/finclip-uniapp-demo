@@ -9,6 +9,9 @@
 #ifndef FATConstant_h
 #define FATConstant_h
 
+// 过期提醒
+#define FATDeprecated(DESCRIPTION) __attribute__((deprecated(DESCRIPTION)))
+
 typedef NS_ENUM(NSInteger, FATExtensionCode) {
     FATExtensionCodeCancel = -1, //取消
     FATExtensionCodeSuccess = 0, //成功
@@ -35,6 +38,12 @@ typedef NS_ENUM(NSUInteger, FATAppletMenuStyle) {
     FATAppletMenuStyleOnMiniProgram
 };
 
+typedef NS_ENUM(NSInteger, FATConfigPriority) {
+    FATConfigGlobalPriority = 0, //全局配置优先
+    FATConfigSpecifiedPriority,  // 单个配置优先
+    FATConfigAppletFilePriority, // 小程序配置文件优先，小程序app.ext.json文件中配置
+};
+
 typedef NS_ENUM(NSUInteger, FATCrashProtectionType) {
     FATCrashProtectionTypeNone = 0,
     FATCrashProtectionTypeUnrecognizedSelector = 1 << 1,
@@ -49,11 +58,12 @@ typedef NS_ENUM(NSUInteger, FATCrashProtectionType) {
 };
 
 typedef NS_ENUM(NSUInteger, FATAppletVersionType) {
-    FATAppletVersionTypeRelease,    // 正式版，默认值
-    FATAppletVersionTypeTrial,      // 体验版
-    FATAppletVersionTypeTemporary,  // 临时版，IDE预览版
-    FATAppletVersionTypeReview,     // 审核版
-    FATAppletVersionTypeDevelopment // 开发版
+    FATAppletVersionTypeRelease,     // 正式版，默认值
+    FATAppletVersionTypeTrial,       // 体验版
+    FATAppletVersionTypeTemporary,   // 临时版，IDE预览版
+    FATAppletVersionTypeRemoteDebug, // 远程调试版
+    FATAppletVersionTypeReview,      // 审核版
+    FATAppletVersionTypeDevelopment  // 开发版
 };
 
 typedef NS_ENUM(NSUInteger, FATAppletLifeCycle) {
@@ -63,13 +73,27 @@ typedef NS_ENUM(NSUInteger, FATAppletLifeCycle) {
     FATAppletLifeCycleBackground, // 后台阶段
 };
 
+typedef NS_ENUM(NSUInteger, FATLogLevel) {
+    FATLogLevelError,   // 设置为该等级，将会记录ERROR级别的日志
+    FATLogLevelWarning, // 设置为该等级，将会记录ERROR和WARNING级别的日志
+    FATLogLevelInfo,    // 设置为该等级，将会记录ERROR、WARNING和INFO级别的日志
+    FATLogLevelDebug,   // 设置为该等级，将会记录ERROR、WARING、INFO和DEBUG级别的日志
+    FATLogLevelVerbose  // 设置为该等级，将会记录ERROR、WARING、INFO、DEBUG和VERBOSE级别的日志
+};
+
+typedef NS_ENUM(NSUInteger, FATBOOLState) {
+    FATBOOLStateUndefined, // 未设置
+    FATBOOLStateTrue,      // 对应设置为true时，
+    FATBOOLStateFalse,     // 对应设置为false时
+};
+
 /**
  扩展API处理后的回调
  
  @param code 处理结果码
  @param result 处理结果数据
  */
-typedef void (^FATExtensionApiCallback)(FATExtensionCode code, NSDictionary<NSString *, NSObject *> *result);
+typedef void (^FATExtensionApiCallback)(FATExtensionCode code, NSDictionary<NSString *, id> *result);
 
 #pragma mark - 启动小程序时的启动参数
 typedef NSString *FATStartParamKey NS_REFINED_FOR_SWIFT;

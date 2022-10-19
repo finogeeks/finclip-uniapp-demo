@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FATLogger.h"
+#import "FATConstant.h"
 
 @class FATLoggerDriver;
 @class FATLogFormatter;
@@ -22,14 +23,6 @@ typedef NS_ENUM(NSUInteger, FATLogType) {
     FATLogTypeWarning,
     FATLogTypeInfo,
     FATLogTypeDebug,
-};
-
-typedef NS_ENUM(NSUInteger, FATLogLevel) {
-    FATLogLevelOff = 0,
-    FATLogLevelError,
-    FATLogLevelWarning,
-    FATLogLevelInfo,
-    FATLogLevelDebug,
 };
 
 @protocol FATFormatable <NSObject>

@@ -6,7 +6,7 @@
 //  Copyright © 2019 finogeeks. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "FATConstant.h"
 
 @interface FATAppletSimpleInfo : NSObject
@@ -23,11 +23,17 @@
 /// 小程序开发者userId
 @property (nonatomic, copy) NSString *userId;
 
+/// 当前用户id，小程序缓存信息会存储在以userId命名的不同目录下。
+@property (nonatomic, copy) NSString *currentUserId;
+
 /// 小程序的机构id
 @property (nonatomic, copy) NSString *groupId;
 
-/// 小程序图标
+/// 小程序图标的地址
 @property (nonatomic, copy) NSString *appAvatar;
+
+/// 离线小程序(本地小程序)设置的图标
+@property (nonatomic, strong) UIImage *logoImage;
 
 /// 小程序名称
 @property (nonatomic, copy) NSString *appTitle;
@@ -65,6 +71,18 @@
 @property (nonatomic, copy) NSDictionary *startParams;
 
 /**
+ 小程序关联的微信信息
+ 示例：
+ {
+     phoneUrl = "pages/phone/index";//获取用户手机时的授权页面
+     profileUrl = "pages/profile/index";//获取用户信息时的授权页面
+     wechatOriginId = "gh_13538b2951a0";//关联的微信id
+ }
+ 需要先到小程序管理->我的小程序->详情->第三方管理填写关联的微信信息
+ */
+@property (nonatomic, copy) NSDictionary *wechatLoginInfo;
+
+/**
  * 小程序类型（线上版、体验版、临时版、审核版、开发版）
  */
 @property (nonatomic, assign, readonly) FATAppletVersionType appletVersionType;
@@ -75,6 +93,16 @@
  */
 @property (nonatomic, copy) NSString *cryptInfo;
 
+/**
+ 自定义的scheme数组
+ */
+@property (nonatomic, strong) NSArray<NSString *> *schemes;
+
+//权限提示
+
 - (NSString *)appletVersionTypeName;
+- (NSString *)appletVersionTypeEnv;
+
+
 
 @end

@@ -32,7 +32,7 @@
 
 @class FATLoggerDriver;
 
-@interface FATLogManager : NSObject
+FATDeprecated("该类(自2.37.1起)废弃，请使用[FATClient sharedClient].logManager") @interface FATLogManager : NSObject
 @property (strong, nonatomic, readonly) FATLogEngine *logEngine;
 
 @property (assign, nonatomic) FATLogLevel level;

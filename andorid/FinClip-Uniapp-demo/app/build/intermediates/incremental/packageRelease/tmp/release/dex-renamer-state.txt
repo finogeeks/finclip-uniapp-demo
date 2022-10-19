@@ -1,7 +1,0 @@
-#Sat May 07 09:32:27 CST 2022
-base.0=/Users/yangbin/work/finogeeks/newspace/finclip-uniapp-demo/andorid/FinClip-Uniapp-demo/app/build/intermediates/dex/release/mergeDexRelease/classes.dex
-path.1=classes2.dex
-renamed.1=classes2.dex
-path.0=classes.dex
-renamed.0=classes.dex
-base.1=/Users/yangbin/work/finogeeks/newspace/finclip-uniapp-demo/andorid/FinClip-Uniapp-demo/app/build/intermediates/dex/release/mergeDexRelease/classes2.dex

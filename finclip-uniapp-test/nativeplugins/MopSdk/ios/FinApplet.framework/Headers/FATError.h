@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FATLogManager.h"
 
 typedef NS_ENUM(NSUInteger, FATErrorCode) {
     FATErrorCodeUnknown = 9999,          // 未知错误

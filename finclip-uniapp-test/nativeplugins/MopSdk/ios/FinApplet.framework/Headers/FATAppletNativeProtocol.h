@@ -136,3 +136,35 @@ typedef void (^FATNativeCallback)(BOOL isSuccess, NSDictionary<NSString *, id> *
 - (void)livePusherToggleTorch:(NSDictionary *)param completion:(FATNativeCallback)callBack;
 
 @end
+
+typedef NS_ENUM(NSInteger, FATCapsuleButtonState) {
+    FATCapsuleButtonStateNull = 0,
+    FATCapsuleButtonStateLocation,
+    FATCapsuleButtonStateMicroPhone
+};
+
+@class FATPageBaseViewController;
+
+@protocol FATCapsuleViewProtocol <NSObject>
+
+/// 展示/隐藏胶囊视图
+/// @param isShow 是否展示
+/// @param webViewController 胶囊所在的页面
+- (void)showCapsuleView:(BOOL)isShow webViewController:(FATPageBaseViewController *)webViewController;
+
+/// 加载胶囊样式
+- (void)loadCapsuleViewStyle;
+
+/// 更新胶囊frame
+- (void)layoutCapsuleView;
+
+/// 控制胶囊按钮的状态按钮是否隐藏
+/// @param hidden 是否隐藏
+/// @param state 状态按钮的样式
+/// @param animate 是否动画
+- (void)controlCapsuleStateButton:(BOOL)hidden state:(FATCapsuleButtonState)state animate:(BOOL)animate;
+
+/// 获取胶囊状态
+- (FATCapsuleButtonState)capsuleViewState;
+
+@end

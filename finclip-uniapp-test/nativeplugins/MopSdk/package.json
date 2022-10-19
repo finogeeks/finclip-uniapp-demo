@@ -31,7 +31,11 @@
 			"frameworks": ["FinApplet.framework"],
 			"embedFrameworks":  ["FinApplet.framework"],
 			"integrateType": "framework",
-			"deploymentTarget": "9.0"
+			"deploymentTarget": "9.0",
+			"validArchitectures": [
+			    "arm64", "arm64e", "armv7", "armv7s"
+			],
+			"embedSwift": false
 		}
 	}
 }

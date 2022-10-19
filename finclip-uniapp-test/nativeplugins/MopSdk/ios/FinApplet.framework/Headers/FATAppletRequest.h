@@ -6,7 +6,7 @@
 //  Copyright © 2020 finogeeks. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "FATConstant.h"
 
 @interface FATAppletBaseRequest : NSObject
@@ -50,6 +50,11 @@
 是否动画，默认为YES
 */
 @property (nonatomic, assign) BOOL animated;
+
+///**
+// 自定义的scheme数组（非必填）
+// */
+//@property (nonatomic, strong) NSArray<NSString *> *scheme;
 
 @end
 
@@ -116,11 +121,20 @@
 
 @end
 
-/// 运行本地小程序
+/**
+ 运行本地小程序
+ */
 @interface FATLocalAppletRequest : FATAppletBaseRequest
 
 /**
+ 小程序的logo图片对象，非必填
+ 如果为nil，则会加载appletLogo。
+ */
+@property (nonatomic, strong) UIImage *logoImage;
+
+/**
  小程序可访问的域名白名单列表，非必填
+ 如果domainList 为空，即nil 或[]，则不校验域名
  */
 @property (nonatomic, copy) NSArray *domainList;
 
@@ -130,21 +144,9 @@
 @property (nonatomic, copy) NSArray *packages;
 
 /**
- 小程序的离线包地址，必填。
- */
-@property (nonatomic, copy) NSString *offlineMiniprogramZipPath;
-
-/**
  小程序压缩包密码，必填
  */
 @property (nonatomic, copy) NSString *zipPassword;
-
-/**
- 是否使用本地小程序缓存，非必填
- 如果设置为YES，则会使用的小程序缓存。
- 否则，则每次打开小程序都会使用传入的小程序离线包
- */
-@property (nonatomic, assign) BOOL useAppletCache;
 
 /**
  基础库离线包地址，必填
@@ -157,5 +159,31 @@
  否则，则每次打开小程序都会使用传入的基础库
  */
 @property (nonatomic, assign) BOOL useFrameworkCache;
+
+#pragma mark - 小程序分包加载
+/**
+ 可以是小程序版本号，也可以是小程序版本的唯一标识比如md5（适用于小程序分包加载，小程序分包加载必填）
+ 小程序会根据version来缓存小程序，小程序需要加载分包时优先查找缓存中相同version的小程序，没找到则会触发代理方法，由宿主app提供
+ 小程序分包路径通过[FATClient sharedClient].delegate的代理方法localApplet:packDict:zipPathCallback:设置
+ */
+@property (nonatomic, copy) NSString *version;
+
+#pragma mark - 加载整个小程序
+/**
+ 是否使用本地小程序缓存，默认值为NO（适用于加载整个小程序，加载整个小程序非必填）
+ 如果设置为YES，则会使用的小程序缓存。
+ 否则，则每次打开小程序都会使用传入的小程序离线包
+ */
+@property (nonatomic, assign) BOOL useAppletCache;
+
+/**
+ 小程序的离线包地址（适用于加载整个小程序，加载整个小程序必填）
+ */
+@property (nonatomic, copy) NSString *offlineMiniprogramZipPath;
+
+/**
+ 小程序的自定义API白名单列表（非必填）
+ */
+@property (nonatomic, strong) NSArray<NSString *> *extApiWhiteList;
 
 @end
