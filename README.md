@@ -1,3 +1,9 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: sueRimn
+ * @Date: 2022-10-19 12:17:40
+-->
 <p align="center">
     <a href="https://www.finclip.com?from=github">
     <img width="auto" src="https://www.finclip.com/mop/document/images/logo.png">
@@ -56,7 +62,7 @@
 </div>
 
 ### 2. 实现原理
-本项目资源使用`HBuilderX 3.4.7.20220422`开发，只集成了`FinClip 核心SDK`，如需要更多功能，可使用 iOS/Android 原工程重新生成插件。
+本项目资源使用`HBuilderX 3.6.4`开发，只集成了`FinClip 核心SDK（2.38.3）`，如需要更多功能，可使用 iOS/Android 原工程重新生成插件。
 
 <div align="center">
     <img src="./doc/images/架构.png" width="500" />
