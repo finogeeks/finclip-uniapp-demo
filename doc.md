@@ -302,7 +302,7 @@ MopSdk.setAppletLifecycleCallback(
 ##### 7、获取当前小程序appId信息
 ```JavaScript
     MopSdk.currentAppletId((res) => {
-		const appId = res.appId
+		const appId = res.currentAppletId
 	})
 ```
 
