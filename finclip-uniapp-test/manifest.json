@@ -44,16 +44,8 @@
             "ios" : {
                 "dSYMs" : false
             },
-            /* SDK配置 */
             "sdkConfigs" : {
-                "ad" : {},
-                "share" : {
-                    "weixin" : {
-                        "appid" : "wxc90f49f097184bc6",
-                        "UniversalLinks" : ""
-                    }
-                },
-                "payment" : {}
+                "ad" : {}
             }
         },
         "nativePlugins" : {

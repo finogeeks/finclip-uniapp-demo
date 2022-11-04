@@ -4,6 +4,16 @@
 		<button type="primary" v-on:click="handleOpenMiniProgram">打开小程序</button>
 		<view class="padding-gap"></view>
 		<button type="primary" v-on:click="handleOpenMiniProgramByQrcode">二维码打开小程序</button>
+	    <view class="padding-gap"></view>
+		<button type="primary" v-on:click="handleFinishMiniProgram">结束小程序</button>
+		<view class="padding-gap"></view>
+		<button type="primary" v-on:click="handleFinishAllMiniProgram">结束所有小程序</button>
+		<view class="padding-gap"></view>
+		<button type="primary" v-on:click="handleSendMessageToMiniProgram">发送信息小程序</button>
+		<view class="padding-gap"></view>
+		<button type="primary" v-on:click="handleGetMiniProgramInfo">获前小程序信息</button>
+		<view class="padding-gap"></view>
+		<button type="primary" v-on:click="handleSearchMiniProgram">搜索小程序</button>
 	</view>
 </template>
 
@@ -16,7 +26,6 @@
 			}
 		},
 		onLoad() {
-
 		},
 		methods: {
 			handleOpenMiniProgram() {
@@ -28,7 +37,7 @@
 				// 	query: 'a=1&b=2'
 				// }
 				const sequence = null // 小程序的上架序列号
-				const isSingleton = false
+				const isSingleton = false //安卓单任栈（）
 				MopSdk.openApplet({apiServer,
 				                   appId,
 								   startParams,
@@ -52,8 +61,37 @@
 										  	console.log('onProcess',ret)								  
 										  })
 					}
+				})	
+			},
+			handleFinishMiniProgram(){
+				MopSdk.finishRunningApplet('62566cbd3eb8ce0001b7761c')
+			},
+			handleFinishAllMiniProgram(){
+				MopSdk.finishAllRunningApplets()
+			},
+			handleSendMessageToMiniProgram(){
+				MopSdk.currentAppletId((res) => {
+					console.log('当前小程序appId:',res.currentAppletId)
+					// MopSdk.sendCustomEvent(res.currentAppletId,{
+					// 	message: 'this is test'
+					// })
+					MopSdk.sendCustomEventToAll({
+						message: 'this is test'
+					})
 				})
-				
+			},
+			handleGetMiniProgramInfo() {
+				MopSdk.currentApplet((res) => {
+					console.log('当前小程序信息',res)
+				})
+			},
+			handleSearchMiniProgram() {
+				MopSdk.seachApplets({
+					apiServer: 'https://api.finclip.com',
+					text: '测试'
+				},(res) => {
+					console.log('搜索小程序结果',res)
+				})
 			}
 		}
 	}
