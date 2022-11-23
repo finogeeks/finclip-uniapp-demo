@@ -31,11 +31,10 @@
 			handleOpenMiniProgram() {
 				const apiServer = 'https://api.finclip.com'
 				const appId = '62566cbd3eb8ce0001b7761c'
-				const startParams = null
-				// const startParams = {
-				// 	path: '/pages/index/index',
-				// 	query: 'a=1&b=2'
-				// }
+				const startParams = {
+					path: '/pages/index/index',
+					query: 'a=1&b=2'
+				}
 				const sequence = null // 小程序的上架序列号
 				const isSingleton = false //安卓单任栈（）
 				MopSdk.openApplet({apiServer,

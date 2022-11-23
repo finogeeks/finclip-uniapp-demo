@@ -2,8 +2,8 @@
 	const MopSdk = uni.requireNativePlugin('MopSdk');
 
 	export default {
-		onLaunch: function() {
-			console.log('App Launch')
+		onLaunch: function(options) {
+			console.log('App Launch',options)
 			MopSdk.initialize({
 						'sdkKey': '22LyZEib0gLTQdU3MUauAa2CctUv+NxTLFWyPxC28y2gA4x+JWh7hhNS5aO52BFs',
 						'sdkSecret': '65146ffa924ecfdc',
