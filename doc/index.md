@@ -7,7 +7,7 @@ Uniapp APP项目集成FinClip SDK插件，是通过Uniapp官方提供[插件功�
 ![Alt](./images/架构.png)
 
 ## 使用说明
-（注本项目资源使用HBuilderX 3.96开发，只集成了FinClip 核心SDK （2.42.5）,如需要更多功能，可使用安卓/IOS源码工程进行开发、扩展后，重新生成插件）
+（注本项目资源使用HBuilderX 3.96开发，只集成了FinClip 核心SDK （2.42.5）,如需要更多功能，可使用安卓/IOS源码工程进行开发、扩展后，重新生成插件。[【更新日志】](./log.md)
 
 ### 1.  引入已经生成好的插件
 ![Alt](./images/引入插件.png)
