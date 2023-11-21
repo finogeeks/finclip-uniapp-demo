@@ -271,15 +271,16 @@ MopSdk.initialize({
     console.log('App Launch Fail', ret)
    });
  ```
-#### 2 使用TBS X5 WebView
+
+#### 2 使用TBS X5 WebView (仅安卓)
 SDK 默认使用系统 WebView 加载小程序，同时也支持使用 TBS X5 WebView 加载小程序。使用 TBS X5 内核可以实现部分原生组件的同层渲染，目前支持通过 TBS X5 内核进行同层渲染的原生组件有：
 
-video
-live-player
-live-pusher
-map
-input
-textarea
+video    
+live-player    
+live-pusher   
+map    
+input   
+textarea   
 
 启用 TBS X5 WebView 的方法：
 ![Alt text](images/启用安卓同层渲染.png)
@@ -300,7 +301,6 @@ arm64-v8a 架构 X5 内核文件重命名为：arm64-v8a_release.tbs
 ![Alt text](images/启用安卓同层渲染02.png)
 
 经过以上步骤，SDK 初始化的时候就能够从自己的服务器下载 X5 内核文件了。
-
 
 ### 小程序管理
 
@@ -906,7 +906,7 @@ MopSdk.isUsedApplet(appId,(isUsed) => {
     MopSdk.setPhoneNumber(phoneNumber)
  ```
 
- #### 3 设置小程序button的open-type设置分享触发代理
+ #### 3 设置小程序button的open-type分享触发代理
  
 ##### 参数
 
@@ -938,8 +938,12 @@ MopSdk.isUsedApplet(appId,(isUsed) => {
     })
  ```
 
- #### 5 设置小程序button的open-type或getUserProfile获取用户信息
+ #### 5 设置小程序button的open-type获取用户信息
  
+ 同样适用于下面API   
+ getUserInfo   
+ getUserProfile   
+
 ##### 参数
 
 | 配置名称| 类型 | 配置描述 |
@@ -956,7 +960,23 @@ MopSdk.isUsedApplet(appId,(isUsed) => {
     }）
 ```
 
- #### 6 设置小程序自定义菜单按钮
+ #### 6 关闭按钮回调
+
+ ##### 参数
+
+| 配置名称| 类型 | 配置描述 |
+| --- | -- |--- |
+| callback | Function | 关闭点击回调 |
+
+##### 示例
+
+```JavaScript
+    MopSdk.setNavigationBarCloseButtonClicked((ret)=>{
+
+    }）
+```
+
+ #### 7 设置小程序自定义菜单按钮
 
  ##### 参数
 
@@ -989,7 +1009,7 @@ MenuItem配置
     }）
 ```
 
-#### 7 设置小程序灰度值
+#### 8 设置小程序灰度值
 
  ##### 参数
 
