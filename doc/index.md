@@ -1293,7 +1293,13 @@ GrayItem配置
 ![Alt](./images/安卓生成uni-app的插件02.png)
 
 ### IOS插件拓展
-请将工程内的ios.zip进行解压，然后使用xcode打开项目
+请将工程内的ios.zip进行解压，并下载xcode依赖SDK库下载地址   
+
+[和彩云，提取码: 8yLu](https://caiyun.139.com/w/i/115CeVBRPMhah)    
+[百度网盘，提取码: vi3f](https://pan.baidu.com/share/init?surl=LsuqsRYa46GrMbIumcMKbw&pwd=vi3f)   
+
+将下载SDK.zip进行解压并将SDK->SDK->Libs目录拷贝至当前项目SDK目录，然后使用xcode打开项目，
+
 ![Alt](./images/IOS生成uni-app的插件00.png)
 
 #### 1、IOS插件生成，可参考下图
