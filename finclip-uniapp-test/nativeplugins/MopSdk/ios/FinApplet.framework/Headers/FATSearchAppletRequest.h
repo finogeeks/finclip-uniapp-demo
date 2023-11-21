@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  服务器地址，客户部署的后台地址，必填
- * 例：https://mp.finogeeks.com
+ * 例：https://www.finclip.com
  */
 @property (nonatomic, copy) NSString *apiServer;
 

@@ -20,9 +20,33 @@
  菜单的icon图标
  我们固定菜单的大小：3倍图：90*90
  图标中间小logo与图标宽度比是 5:8。
- 注意：菜单标题显示优先级：后台配置icon > APP注入icon
+ 注意：菜单图标显示优先级：后台配置icon > APP注入icon
  */
 @property (nonatomic, strong) UIImage *menuIconImage;
+
+/**
+ 菜单的icon图标网络链接地址
+ 我们固定菜单的大小：3倍图：90*90
+ 图标中间小logo与图标宽度比是 5:8，供参考
+ 注意：菜单图标显示优先级：后台配置的icon path > App注入的icon
+ */
+@property (nonatomic, copy) NSString *menuIconUrl;
+
+/**
+ 菜单在黑暗模式下的icon图标
+ 我们固定菜单的大小：3倍图：90*90
+ 图标中间小logo与图标宽度比是 5:8。
+ 注意：菜单图标显示优先级：后台配置icon > APP注入icon
+ */
+@property (nonatomic, strong) UIImage *menuIconDarkImage;
+
+/**
+ 菜单的暗黑模式icon图标网络链接地址
+ 我们固定菜单的大小：3倍图：90*90
+ 图标中间小logo与图标宽度比是 5:8，供参考
+ 注意：菜单图标显示优先级：后台配置的darkIcon path > App注入的icon
+ */
+@property (nonatomic, copy) NSString *menuDarkIconUrl;
 
 /**
  菜单的标题

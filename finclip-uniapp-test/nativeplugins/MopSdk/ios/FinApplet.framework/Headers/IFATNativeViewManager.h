@@ -23,6 +23,18 @@
 /// @param completion 完成回调：error code为FATErrorCodeAppletNotFound，未找到前台运行的小程序
 - (void)sendEvent:(NSString *)eventName nativeViewId:(NSNumber *)nativeViewId detail:(NSDictionary *)detail completion:(void (^)(id result, NSError *error))completion;
 
+/// 给 nativeView 发送事件（前台运行的小程序）
+/// @param taskName 订阅事件回调名称
+/// @param eventName 事件名称
+/// @param nativeViewId native-view id
+/// @param detail 事件详细参数
+/// @param completion 完成回调：error code为FATErrorCodeAppletNotFound，未找到前台运行的小程序
+- (void)sendSubscribeTask:(NSString *)taskName
+                eventName:(NSString *)eventName
+             nativeViewId:(NSNumber *)nativeViewId
+                   detail:(NSDictionary *)detail
+               completion:(void (^)(id result, NSError *error))completion;
+
 /// 给nativeView 发送事件（appletId指定的小程序）
 /// @param eventName 事件名称
 /// @param appletId 小程序的appId, 不能为空

@@ -55,4 +55,28 @@ SDK指纹
 */
 @property (nonatomic, assign) BOOL encryptServerData;
 
+/**
+ 是否开启外部校验
+*/
+@property (nonatomic, assign) BOOL externalVerify;
+
+/**
+ 是否通过校验
+*/
+@property (nonatomic, assign) BOOL isVerify;
+
+/**
+ 是否最终为外部校验（用于判断是否生成feature，并保存到storeModel中）
+ 该属性为YES需要满足以下三个条件：
+ 1. finkey校验通过；
+ 2. 实现外部校验代理方法；
+ 3. 配置externalVerify为YES。
+*/
+@property (nonatomic, assign) BOOL isExternalVerify;
+
+/**
+ 是否需要预下载基础库，默认为YES（开启预下载）
+*/
+@property (nonatomic, assign) BOOL enablePreloadFramework;
+
 @end

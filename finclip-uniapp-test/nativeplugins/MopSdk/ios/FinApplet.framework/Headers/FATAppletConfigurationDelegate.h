@@ -33,6 +33,20 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param appletId 小程序id
 - (NSDictionary *)getCookieWithAppletInfo:(NSString *)appletId;
 
+/// 设置小程序的Cookie
+/// @param appletInfo 小程对象
+/// 示例
+/// NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+/// [cookieProperties setObject:@"Hm_apvt_0d885a47c55a66238287cbd00b79a117" forKey:NSHTTPCookieName];
+/// [cookieProperties setObject:@"finogeeks" forKey:NSHTTPCookieValue];
+/// [cookieProperties setObject:@".myqcloud.com" forKey:NSHTTPCookieDomain];
+/// [cookieProperties setObject:@"finogeeks.com" forKey:NSHTTPCookieOriginURL];
+/// [cookieProperties setObject:@"/" forKey:NSHTTPCookiePath];
+/// [cookieProperties setObject:@"0" forKey:NSHTTPCookieVersion];
+/// [cookieProperties setObject:[NSDate dateWithTimeIntervalSinceNow:36000] forKey:NSHTTPCookieExpires];
+/// return [cookieProperties];
+- (NSArray *)getCookieArrayWithAppletInfo:(FATAppletInfo *)appletInfo;
+
 #pragma mark - JS SDK
 /// 验证 js-sdk config信息 (未实现该代理方法则默认为验证通过)
 /// @param  appletInfo   小程序信息

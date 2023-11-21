@@ -168,3 +168,4 @@ typedef NS_ENUM(NSInteger, FATCapsuleButtonState) {
 - (FATCapsuleButtonState)capsuleViewState;
 
 @end
+

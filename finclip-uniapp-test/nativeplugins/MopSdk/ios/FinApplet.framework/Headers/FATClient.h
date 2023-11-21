@@ -15,6 +15,8 @@
 #import "FATAppletDelegate.h"
 #import "IFATNativeViewManager.h"
 #import "IFATXLogManager.h"
+#import "IFATToolManager.h"
+#import "IFATAuthApiManager.h"
 #import "FATAppletRequest.h"
 #import "FATSearchAppletRequest.h"
 #import "FATError.h"
@@ -25,6 +27,16 @@
 #import "FATLocalAppletDelegate.h"
 #import "FATAppletConfigurationDelegate.h"
 #import "FATAppletWaterMaskAndScreenCaptureDelegate.h"
+#import "FATAppletLogDelegate.h"
+#import "FATAppletMenuShareItemDelegate.h"
+#import "FATAppletAppJsonDelegate.h"
+#import "FATAppletAuthDelegate.h"
+#import "FATAuthModel.h"
+#import "FATInitConfigVerifyDelegate.h"
+#import "FATBaseLoadingView.h"
+#import "FATAppletLoadingPageLifeCycleDelegate.h"
+#import "FATAppletScope.h"
+#import "FATScopeChecker.h"
 
 @interface FATClient : NSObject
 
@@ -53,9 +65,25 @@
 @property (nonatomic, weak) id<FATAppletLifeCycleDelegate> lifeCycleDelegate;
 
 /**
+ loading页生命周期相关的代理事件
+ */
+@property (nonatomic, weak) id<FATAppletLoadingPageLifeCycleDelegate> loadingPageLifeCycleDelegate;
+
+
+/**
  右上角胶囊和更多按钮中自定义的菜单相关的代理事件
  */
 @property (nonatomic, weak) id<FATAppletMoreMenuDelegate> moreMenuDelegate;
+
+/**
+ 自定义关于页面相关的代理事件
+ */
+@property (nonatomic, weak) id<FATAppletcustomAboutDelegate> customAboutViewControllerDelegate;
+
+/**
+ 分享按钮的代理事件
+ */
+@property (nonatomic, weak) id<FATAppletMenuShareItemDelegate> shareItemDelegate;
 
 /**
  本地小程序相关的代理事件
@@ -72,10 +100,41 @@
  */
 @property (nonatomic, weak) id<FATAppletWaterMaskAndScreenCaptureDelegate> waterMaskAndScreenCaptureDelegate;
 
+/**
+ 小程序日志输出的代理事件
+ */
+@property (nonatomic, weak) id<FATAppletLogDelegate> logDelegate;
+
+/**
+ 小程序app.json配置信息的代理事件
+ */
+@property (nonatomic, weak) id<FATAppletAppJsonDelegate> appJsonDelegate;
+
+/**
+ 小程序权限的代理事件
+ */
+@property (nonatomic, weak) id<FATAppletAuthDelegate> authDelegate;
+
+/**
+ 初始化外部校验代理对象
+*/
+@property (nonatomic, weak) id<FATInitConfigVerifyDelegate> initConfigVerifyDelegate;
+
 /** nativeView 控制器*/
 @property (nonatomic, strong) id<IFATNativeViewManager> nativeViewManager;
 /** 日志管理器*/
 @property (nonatomic, strong) id<IFATXLogManager> logManager;
+/**
+ 工具方法管理器
+*/
+@property (nonatomic, strong) id<IFATToolManager> toolManager;
+
+/**
+ 权限API管理器
+*/
+@property (nonatomic, strong) id<IFATAuthApiManager> authApiManager;
+
+
 
 + (instancetype)sharedClient;
 
@@ -90,35 +149,12 @@
 /// @param error 初始化失败时返回的error
 - (BOOL)initWithConfig:(FATConfig *)config uiConfig:(FATUIConfig *)uiConfig error:(NSError **)error;
 
-/**
- 清空内存中缓存的小程序
- */
-- (void)clearMemoryCache;
-
-/**
-清除内存中的某个小程序
-*/
-- (void)clearMemeryApplet:(NSString *)appletId;
-
-/**
-删除本地的所有小程序
-*/
-- (void)clearLocalApplets;
-
-/**
- 从本地删除小程序
- 
- @param appletId 小程序id
- @return BOOL 结果
- */
-- (BOOL)removeAppletFromLocalCache:(NSString *)appletId;
-
 /*
  处理URL
  @param URL 具体的URL路由
  URL格式:${scheme}://applet/appid/${appId}?path=${path}&query=${encode过的query}&apiServer=${encode过的apiServer}
- 例如：fatae55433be2f62915://applet/appid/617bb42f530fb30001509b27?path=/packages/d/index&query=key%3Dvalue%26name%3Dtable&apiServer=https%3A%2F%2Fwww.finclip.com
- 其中，必须有的是scheme和appId，如：fatae55433be2f62915://applet/appid/617bb42f530fb30001509b27
+ 例如：fatd919cec7395563d7://applet/appid/617bb42f530fb30001509b27?path=/packages/d/index&query=key%3Dvalue%26name%3Dtable&apiServer=https%3A%2F%2Fwww.finclip.com
+ 其中，必须有的是scheme和appId，如：fatd919cec7395563d7://applet/appid/617bb42f530fb30001509b27
  scheme的构建规则是：fat+${SDKKey的16位小写md5};如果需要在其他软件中调用本App，还需要把这个scheme新增到target->info->URL types中
  */
 - (BOOL)handleOpenURL:(NSURL *)URL;
@@ -136,11 +172,15 @@
 /// @param parentViewController 父控制器，打开的个人信息与权限管理页面会在父控制器上模态弹出
 - (void)openPrivacyManage:(UIViewController *)parentViewController;
 
+
+/// 获取小程序启动时的加载视图，小程序加载完成或小程序未打开，返回nil
+/// @param appletId  小程序id，传nil则返回当前小程序的loading视图
+- (FATBaseLoadingView *)getAppletTransitionLoadingView:(NSString *)appletId;
+
 /// 当前正在使用的小程序
 - (FATAppletInfo *)currentApplet;
 
 #pragma mark - close applet
-
 /**
 关闭当前的小程序
 @param animated 是否显示动画
@@ -161,18 +201,51 @@
 */
 - (void)closeAllAppletsWithCompletion:(dispatch_block_t)completion;
 
+#pragma mark - remove applet
+/**
+ 清空内存中缓存的小程序
+ */
+- (void)clearMemoryCache;
+
+/**
+清除内存中的某个小程序
+*/
+- (void)clearMemeryApplet:(NSString *)appletId;
+
+/**
+ 从本地删除小程序 （从磁盘 和 内存中都删除）
+ 
+ @param appletId 小程序id
+ @return BOOL 结果
+ */
+- (BOOL)removeAppletFromLocalCache:(NSString *)appletId;
+
+/**
+删除本地的所有小程序（从磁盘 和 内存中都删除）
+*/
+- (void)clearLocalApplets;
+
 #pragma mark - update & download applets api
 /**
- @brief 批量更新小程序
+ @brief 批量更新小程序（仅支持release版小程序）
  @param appIds 小程序id数组
  @param apiServer 服务器地址
  @param complete 批量更新小程序回调
  */
 - (void)downloadApplets:(NSArray *)appIds apiServer:(NSString *)apiServer complete:(void (^)(NSArray *results, FATError *error))complete;
 
+/**
+ @brief 批量更新小程序（仅支持release版小程序）
+ @param appIds 小程序id数组
+ @param apiServer 服务器地址
+ @param isBatchDownloadApplets 是否下载小程序
+ @param complete 批量更新小程序回调
+ */
+- (void)downloadApplets:(NSArray *)appIds apiServer:(NSString *)apiServer isBatchDownloadApplets:(BOOL)isBatchDownloadApplets complete:(void (^)(NSArray *results, FATError *error))complete;
+
 #pragma mark - recent used applet api
 /**
- 获取本地的小程序
+ 获取本地的小程序（仅支持release版小程序）
  
  @return 小程序数组<FATAppletInfo>
  */
@@ -180,7 +253,8 @@
 
 #pragma mark - extension api
 /**
- 注册扩展Api
+ 注册异步扩展Api
+ 注意：handler中异步返回的结果必须是可转json的字典。可用[NSJSONSerialization isValidJSONObject:xxxx]来判断
  
  @param extApiName 扩展的api名称
  @param handler 回调
@@ -189,7 +263,17 @@
 - (BOOL)registerExtensionApi:(NSString *)extApiName handler:(void (^)(FATAppletInfo *appletInfo, id param, FATExtensionApiCallback callback))handler;
 
 /**
+ 注册权限异步扩展Api
+ 注意：handler中异步返回的结果必须是可转json的字典。可用[NSJSONSerialization isValidJSONObject:xxxx]来判断
+ @param extApiName API名
+ @return 返回注册结果
+ */
+- (BOOL)registerScopeExtensionApi:(NSString *)extApiName handler:(void (^)(FATAppletInfo *appletInfo, id param, FATScopeChecker *scopeChecker,FATExtensionApiCallback callback))handler;
+
+
+/**
  注册同步扩展Api
+ 注意：handler返回的结果必须是可转json的字典。可用[NSJSONSerialization isValidJSONObject:xxxx]来判断
  @param syncExtApiName 扩展的api名称
  @param handler 回调
  @return 返回注册结果
@@ -223,6 +307,14 @@
 - (void)fat_callWebApi:(NSString *)eventName applet:(NSString *)appletId paramString:(NSString *)paramString pageId:(NSNumber *)pageId handler:(void (^)(id result, NSError *error))handler;
 
 #pragma mark - tool api
+
+/**
+ 通过viewId获取对应的coverView
+ 
+ @param viewId 视图id
+ @return view
+ */
+- (UIView *)fat_getCoverViewWithViewId:(NSString *)viewId;
 
 /**
  保存文件到小程序的缓存路径
@@ -260,6 +352,16 @@
 - (UIImage *)getCurrentAppletImage;
 
 /**
+ 生成当前页面所有已加载内容的截图
+ */
+- (void)getCurrentAppletLoadingImageHandler:(void(^)(UIImage *capturedImage, NSError *error))completionHandler;
+
+/**
+ 生成当前页面截图指定高度的截图
+ */
+- (UIImage *)getDefaultCurrentAppletImage:(CGFloat)height;
+
+/**
  获取当前加载H5的URL
  如果小程序当前页面加载的不是H5，则返回nil
  */
@@ -271,20 +373,46 @@
 - (void)getCurrentWebViewUserAgentWithCompletion:(void (^)(NSString *userAgent, NSError *error))completionHandler;
 
 /**
- 国密SM3加密
+ 国密SM3加密（内部实现为工具类实现）
  
  @param plainText  加密明文
  @return 加密密文
  */
-- (NSString *)getSM3String:(NSString *)plainText;
+- (NSString *)getSM3String:(NSString *)plainText __attribute__((deprecated("该api废弃，请使用[[FATClient sharedClient].toolManager getSM3String:@""]")));
 
 /**
- 通过appletId获取小程序信息
+ 通过appletId获取小程序信息（release版）
  
  @param appletId 小程序id
  @return 小程序信息
  */
 - (FATAppletInfo *)getAppletInfo:(NSString *)appletId;
+
+/**
+ 通过appletId获取小程序信息
+ 
+ @param appletId 小程序id
+ @param appletVersionType 小程序版本类型
+ @return 小程序信息
+ */
+- (FATAppletInfo *)getAppletInfo:(NSString *)appletId appletVersionType:(FATAppletVersionType)appletVersionType;
+
+/**
+ 国际化
+ 
+ @param key  国际化的key
+ @return 转化后的文案
+ */
+- (NSString *)fat_localizedStringForKey:(NSString *)key;
+
+/**
+ @brief 获取小程序收藏列表
+ @param apiServer 服务器地址
+ @param pageNo 页码（传0则获取全部收藏小程序）
+ @param pageSize 页大小（传0则获取全部收藏小程序）
+ @param completion 获取小程序收藏列表回调
+ */
+- (void)getAppletFavoriteListWithApiServer:(NSString *)apiServer pageNo:(int)pageNo pageSize:(int)pageSize completion:(void (^)(NSDictionary *resultDict, FATError *error))completion;
 
 #pragma mark - new apis
 
@@ -325,10 +453,11 @@
 /// @param parentVC 父页面
 /// @param completion 完成回调
 /// @param closeCompletion 关闭小程序时的回调
-- (void)startLocalAppletWithRequest:(FATLocalAppletRequest *)request
+- (void)startLocalAppletWithRequest:(FATAppletBaseRequest *)request
              inParentViewController:(UIViewController *)parentVC
                          completion:(void (^)(BOOL result, FATError *error))completion
                     closeCompletion:(dispatch_block_t)closeCompletion;
+
 
 #pragma mark - search applet
 /// 搜索小程序

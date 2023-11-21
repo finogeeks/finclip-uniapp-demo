@@ -69,7 +69,7 @@ apm 统计的扩展信息
 @property (nonatomic, strong) NSDictionary *apmExtension;
 
 /** 是否开启Crash防崩溃，默认为NO。
- 如果开启，可以防止如下类型的崩溃：UnrecognizedSelector、KVO、Notification、Timer、Container(数组越界，字典插入nil等)、String (越界、nil等)
+ 如果开启，可以防止如下类型的崩溃：UnrecognizedSelector、Notification、Timer、Container(数组越界，字典插入nil等)、String (越界、nil等)
  如果在开发阶段，建议关闭该属性，否则开发时不便于及时发现代码中的崩溃问题。
 */
 @property (nonatomic, assign) BOOL startCrashProtection;
@@ -89,12 +89,13 @@ apm 统计的扩展信息
 @property (nonatomic, assign) BOOL encryptServerData;
 
 /**
- 是否开启小程序的debug模式。
- 默认为FATBOOLStateUndefined，此时为旧版通过app.json 中 debug:true 开启vconsole。
- 当设置为FATBOOLStateTrue时，强制所有的小程序都会开启vconsole。
- 当设置为FATBOOLStateFalse时，非正式版会在更多菜单里显示打开和关闭调试的菜单。
+ 小程序的debug模式。
+ 默认为FATAppletDebugModeDefault，vConsole跟微信一样。
+ 当设置为FATAppletDebugModeEnable时，强制所有的小程序都会开启vconsole，且不可关闭（最好只在开发阶段使用）。
+ 当设置为FATAppletDebugModeForbidden时，所有版本强制关闭vconsole，且不可调api开启
+ 当设置为FATAppletDebugModeForbiddenRelease时，仅正式版强制关闭vConsole，且不可开启，其他版本效果同FATAppletDebugModeDefault一样。
  */
-@property (nonatomic, assign) FATBOOLState enableAppletDebug;
+@property (nonatomic, assign) FATAppletDebugMode appletDebugMode;
 
 /**
  是否显示水印
@@ -107,18 +108,20 @@ apm 统计的扩展信息
 @property (nonatomic, assign) FATConfigPriority watermarkPriority;
 
 /**
-小程序的自定义启动加载页，非必填。
+ 小程序的自定义启动加载页，非必填。
  自定义启动加载页必须继承自FATBaseLoadingView
- 注意：swift中的类名带有命名空间，可以通过NSStringFromClass获取
+ 注意：swift中的类名带有命名空间，需要在前拼接项目文件名，如：“SwiftDemo.FCloadingView”。其中SwiftDemo是项目名，FCloadingView是类名
 */
 @property (nonatomic, copy) NSString *baseLoadingViewClass;
 
 /**
-小程序的自定义启动失败页，非必填。
+ 小程序的自定义启动失败页，非必填。
  自定义启动失败页必须继承自FATBaseLoadFailedView
- 注意：swift中的类名带有命名空间，可以通过NSStringFromClass获取
+ 注意：swift中的类名带有命名空间，需要在前拼接项目文件名，如：“SwiftDemo.FCloadingView”。其中SwiftDemo是项目名，FCloadingView是类名
 */
 @property (nonatomic, copy) NSString *baseLoadFailedViewClass;
+
+
 
 /**
  统一设置小程序中网络请求的header。
@@ -156,6 +159,25 @@ apm 统计的扩展信息
  自定义的scheme数组
  */
 @property (nonatomic, strong) NSArray<NSString *> *schemes;
+
+/**
+ 设置SDK的语言，应用公共UI（比如关于、设置、更多面板等）上展示的文字。默认为中文。
+ 设置不支持的语言时，显示默认值
+ */
+@property (nonatomic, copy) FATPreferredLanguage language;
+
+/**
+ 自定义SDK的语言，优先级高于内置的 language 属性。
+ 示例：
+ 如果是放在 mainBundle 下，则设置相对路径：@"abc.lproj"
+ 如果是放在自定于 Bundle 下，则设置相对路径：@"bundleName.bundle/abc.lproj"
+ */
+@property (nonatomic, copy, nullable) NSString *customLanguagePath;
+
+/**
+ SDK外部校验Key
+ */
+@property (nonatomic, copy) NSString *finkey;
 
 #pragma mark - method
 /// 创建config对象
@@ -204,6 +226,15 @@ SDK指纹，证联服务器时，必填
 
 /// api的版本（自2.34.1起弃用）
 @property (nonatomic, copy) NSString *apiPrefix __attribute__((deprecated("该api(自2.34.1起)废弃，使用后不起作用。")));
+
+/**
+ 是否开启小程序的debug模式。
+ 默认为FATBOOLStateUndefined，此时为旧版通过app.json 中 debug:true 开启vconsole。
+ 当设置为FATBOOLStateTrue时，强制所有的小程序都会开启vconsole。
+ 当设置为FATBOOLStateFalse时，非正式版会在更多菜单里显示打开和关闭调试的菜单。
+ 当设置为FATBOOLStateForbidden时，所有版本强制关闭vconsole，且不可调api开启
+ */
+@property (nonatomic, assign) FATBOOLState enableAppletDebug __attribute__((deprecated("该属性(自2.41.11起)废弃，建议使用appletDebugMode")));
 
 @end
 

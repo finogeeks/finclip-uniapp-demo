@@ -41,7 +41,15 @@ NS_ASSUME_NONNULL_BEGIN
  @param packDict 分包信息
  @param zipPathCallback zip分包路径回调，路径获取失败调用 zipPathCallback(nil)
  */
-- (void)localApplet:(FATAppletInfo *)appletInfo packDict:(NSDictionary *)packDict zipPathCallback:(void (^)(NSString *zipPath))zipPathCallback;
+- (void)localApplet:(FATAppletInfo *)appletInfo packDict:(NSDictionary *)packDict zipPathCallback:(void (^)(NSString *zipPath))zipPathCallback FATDeprecated("该api(自2.40.3起)废弃，请使用localApplet:loadPackage:zipFileCallback");
+
+/**
+ 本地小程序从宿主app获取分包zip（适用于本地小程序分包加载，小程序分包加载时必须实现）
+ @param appletInfo 小程序信息
+ @param packageInfo 分包信息
+ @param zipFileCallback 分包zip文件回调，路径获取失败调用 zipPathCallback(nil，error对象)。错误提示会展示error的code和localizedDescription
+ */
+- (void)localApplet:(FATAppletInfo *)appletInfo loadPackage:(NSDictionary *)packageInfo zipFileCallback:(void (^)(NSString * _Nullable zipFilePath, NSError * _Nullable failError))zipFileCallback;
 
 /// 获取本地小程序账号信息
 /// @brief 获取本地小程序账号信息，返回的信息结构:
@@ -58,7 +66,60 @@ NS_ASSUME_NONNULL_BEGIN
 /// }
 /// @param appletInfo 小程序信息
 /// @return 小程序账号信息
-- (NSDictionary *)localAppletAccountInfo:(FATAppletInfo *)appletInfo;
+- (NSDictionary *)localAppletAccountInfo:(FATAppletInfo *)appletInfo FATDeprecated("该api(自2.42.3起)废弃");
+
+@end
+
+@protocol FATLocalInterfaceAppletDelegate <FATLocalAppletDelegate>
+
+@required
+
+/// 获取小程序详情
+/// - Parameters:
+///   - request: 本地接口请求类
+///   - completion: 完成回调，回调小程序信息对象和错误对象
+- (void)localAppletFetchAppletInfo:(FATLocalInterfaceAppletRequest *)request
+                        completion:(void (^)(FATFetchAppletInfo * _Nullable appletInfo, FATError * _Nullable error))completion;
+
+/// 获取基础库详情
+/// - Parameters:
+///   - request: 本地接口请求类
+///   - appletInfo: 小程序信息对象
+///   - completion: 完成回调，回调基础库信息对象和错误对象
+- (void)localAppletFetchBaseLibraryInfo:(FATLocalInterfaceAppletRequest *)request
+                             appletInfo:(FATFetchAppletInfo *)appletInfo
+                             completion:(void (^)(FATFetchLibraryInfo * _Nullable libraryInfo, FATError * _Nullable error))completion;
+
+/// 下载基础库包
+/// - Parameters:
+///   - request: 本地接口请求类
+///   - libraryInfo: 基础库信息对象
+///   - completion: 完成回调，回调下载URL对象、解压密码和错误对象
+///   completion回调中的password，文件为非加密的情况下，不使用该字段，当文件加密时，传入为空时使用默认密码
+- (void)localAppletDownloadBaseLibrary:(FATLocalInterfaceAppletRequest *)request
+                           libraryInfo:(FATFetchLibraryInfo *)libraryInfo
+                            completion:(void (^)(NSURL * _Nullable location, NSString * _Nullable password, FATError * _Nullable error))completion;
+
+/// 下载小程序包
+/// - Parameters:
+///   - appletInfo: 小程序信息对象
+///   - package: 小程序包信息
+///   - completion: 完成回调，回调下载URL对象、解压密码（为空时，使用默认密码）和错误对象
+///   completion回调中的password，文件为非加密的情况下，不使用该字段，当文件加密时，传入为空时使用默认密码
+- (void)localAppletDownloadApplet:(FATLocalInterfaceAppletRequest *)request
+                       appletInfo:(FATFetchAppletInfo *)appletInfo
+                      packageInfo:(NSDictionary *)packageInfo
+                       completion:(void (^)(NSURL * _Nullable location, NSString * _Nullable password, FATError * _Nullable error))completion;
+
+/**
+ 触发打开其他本地小程序的请求事件
+ 该事件只有离线小程序才会触发。
+ @param appletInfo 小程序对象
+ @param request 小程序request对象，应该直接使用该request对象，不要创建新的对象。
+ @param currentVC 当前小程序的顶层视图控制器
+ @param completion 打开小程序完毕的回调
+ */
+- (void)localApplet:(FATAppletInfo *)appletInfo navigateToMiniProgram:(FATLocalInterfaceAppletRequest *)request currentVC:(UIViewController *)currentVC completion:(void (^)(FATExtensionCode code, NSDictionary *result))completion;
 
 @end
 

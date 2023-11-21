@@ -23,6 +23,15 @@ NS_ASSUME_NONNULL_BEGIN
  错误详情
  */
 @property (nonatomic, strong) UILabel *detailLabel;
+/**
+ 重新加载按钮
+ */
+@property (nonatomic, strong) UIButton *reloadButton;
+
+/**
+ 重新加载block
+ */
+@property (nonatomic, copy) dispatch_block_t reloadBlock;
 
 @end
 

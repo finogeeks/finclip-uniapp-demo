@@ -25,6 +25,8 @@ typedef NS_ENUM(NSInteger, FATAppletConfigStatus) {
 /// 网络请求的header
 @property (nonatomic, strong) NSDictionary *header;
 
+@property (nonatomic, strong, readonly) NSArray *requiredBackgroundModes; //后台任务配置，字符串数组，如[@"audio"]
+
 @end
 
 NS_ASSUME_NONNULL_END

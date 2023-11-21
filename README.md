@@ -56,13 +56,8 @@
 ### 1. 实现方式
 本 DEMO 使用了 Uniapp 中的 [插件功能](https://nativesupport.dcloud.net.cn/NativePlugin/course/android?id=%e6%8f%92%e4%bb%b6%e5%bc%80%e5%8f%91) 集成 FinClip SDK，实现在 Uniapp 导出的 App 中运行 FinClip 小程序。
 
-<div align="center">
-    <img src="./doc/images/案例01.jpeg" width="200" />
-    <img src="./doc/images/案例02.jpeg" width="200" />
-</div>
-
 ### 2. 实现原理
-本项目资源使用`HBuilderX 3.6.4`开发，只集成了`FinClip 核心SDK（2.38.3）`，如需要更多功能，可使用 iOS/Android 原工程重新生成插件。
+本项目资源使用`HBuilderX 3.96`开发，只集成了`FinClip 核心SDK（2.42.5）`，如需要更多功能，可使用 iOS/Android 原工程重新生成插件。
 
 <div align="center">
     <img src="./doc/images/架构.png" width="500" />
@@ -70,7 +65,7 @@
 
 
 ## 📋 集成文档
-[点击这里](https://www.finclip.com/mop/document/runtime-sdk/uniapp/uni-integrate.html) 查看快速集成文档
+[点击这里](./doc/index.md) 查看快速集成文档
 
 ## 🔗 常用链接
 以下内容是您在 FinClip 进行开发与体验时，常见的问题与指引信息

@@ -83,7 +83,7 @@
 - (void)appletInfo:(FATAppletInfo *)appletInfo didCloseCompletion:(NSError *)error;
 
 /**
- 小程序初始化完成，首页加载出来的事件
+ 小程序初始化完成，冷启动时首页显示出来的事件
  @param appletInfo 小程序info
  @param error 错误对象
  */
@@ -270,7 +270,7 @@
  只有实现了该代理方法，才会触发【-clickCustomItemMenuWithInfo:completion:】
  @param contentInfo 分享信息
  @param appletInfo 小程序信息
- @param completion 分享回调（小程序分享回调：1.【code】回调状态码；2.【result】回传给小程序的回调信息）
+ @param completion 分享回调（预留，暂时无用）
  */
 - (void)clickCustomItemMenuWithInfo:(NSDictionary *)contentInfo inApplet:(FATAppletInfo *)appletInfo completion:(void (^)(FATExtensionCode code, NSDictionary *result))completion;
 
@@ -296,7 +296,7 @@
  @param packDict 分包信息
  @param zipPathCallback zip分包路径回调，路径获取失败调用 zipPathCallback(nil)
  */
-- (void)localApplet:(FATAppletInfo *)appletInfo packDict:(NSDictionary *)packDict zipPathCallback:(void (^)(NSString *zipPath))zipPathCallback;
+- (void)localApplet:(FATAppletInfo *)appletInfo packDict:(NSDictionary *)packDict zipPathCallback:(void (^)(NSString *zipPath))zipPathCallback FATDeprecated("该api(自2.40.3起)废弃，请使用  FATLocalAppletDelegate 中的localApplet:loadPackage:zipFileCallback");
 
 /// 获取本地小程序账号信息
 /// @brief 获取本地小程序账号信息，返回的信息结构:
@@ -313,7 +313,7 @@
 /// }
 /// @param appletInfo 小程序信息
 /// @return 小程序账号信息
-- (NSDictionary *)localAppletAccountInfo:(FATAppletInfo *)appletInfo;
+- (NSDictionary *)localAppletAccountInfo:(FATAppletInfo *)appletInfo FATDeprecated("该api(自2.42.3起)废弃");
 
 #pragma mark-- 小程序配置
 

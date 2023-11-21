@@ -37,6 +37,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)appletInfo:(FATAppletInfo *)appletInfo didClickMoreBtnAtPath:(NSString *)path;
 
 /**
+ 右上角胶囊中关闭按钮的点击事件
+ @param appletInfo 小程序info
+ @param decisionHandler  是否允许关闭的回调，可在回调前执行相关业务处理
+ */
+-(void)appletInfo:(FATAppletInfo *)appletInfo decideCloseWithDecisionHandler:(void(^)(BOOL allowClose))decisionHandler;
+
+/**
  更多按钮中自定义的菜单，会在页面弹出菜单时调用该api
  @param appletInfo 小程序信息
  @param path 页面路径
@@ -48,9 +55,33 @@ NS_ASSUME_NONNULL_BEGIN
  只有实现了该代理方法，才会触发【-clickCustomItemMenuWithInfo:completion:】
  @param contentInfo 分享信息
  @param appletInfo 小程序信息
- @param completion 分享回调（小程序分享回调：1.【code】回调状态码；2.【result】回传给小程序的回调信息）
+ @param completion 分享回调（预留，暂时无用）
  */
 - (void)clickCustomItemMenuWithInfo:(NSDictionary *)contentInfo inApplet:(FATAppletInfo *)appletInfo completion:(void (^)(FATExtensionCode code, NSDictionary *result))completion;
+
+/// 点击添加到桌面时触发的代理方法
+/// @param appletInfo 小程序信息
+/// @param desktopDict 拓展参数
+- (void)applet:(FATAppletInfo *)appletInfo addToDesktop:(NSDictionary *)desktopDict;
+
+@end
+
+
+@protocol FATAppletcustomAboutDelegate <NSObject>
+
+@optional
+
+/**
+ 是否自定义关于页面
+ */
+- (BOOL)customAboutViewController;
+
+/**
+ 自定义关于页面
+ @param appletInfo 小程序信息
+ */
+- (UIViewController *)customAboutViewControllerApplet:(FATAppletInfo *)appletInfo;
+
 
 @end
 

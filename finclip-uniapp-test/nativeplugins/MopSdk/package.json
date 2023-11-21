@@ -1,7 +1,7 @@
 {
 	"name": "MopSdk",
 	"id": "MopSdk",
-	"version": "1.0.0",
+	"version": "2.42.5",
 	"description": "FinClip小程序插件",
 	"_dp_type": "nativeplugins",
 	"_dp_nativeplugin": {
@@ -13,8 +13,9 @@
 				}
 			],
 			"integrateType": "aar",
-			"dependencies": ["com.alibaba:fastjson:1.1.46.android",
-			                 "com.google.code.gson:gson:2.6.2",
+			"dependencies": ["com.alibaba:fastjson:1.2.83",
+			                 "com.google.code.gson:gson:2.9.0",
+							 "com.google.zxing:core:3.3.0",
 							 "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.61"],
 			"compileOptions": {
 				"sourceCompatibility": "1.8",

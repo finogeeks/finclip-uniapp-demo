@@ -7,8 +7,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @protocol FATAppletLifeCycleDelegate <NSObject>
 
 @optional
@@ -79,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)appletInfo:(FATAppletInfo *)appletInfo didCloseCompletion:(NSError *)error;
 
 /**
- 小程序初始化完成，首页加载出来的事件
+ 小程序初始化完成，冷启动时首页显示出来的事件
  @param appletInfo 小程序info
  @param error 错误对象
  */
@@ -114,5 +112,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)appletInfo:(FATAppletInfo *)appletInfo dealloc:(NSError *)error;
 
 @end
-
-NS_ASSUME_NONNULL_END

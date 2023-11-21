@@ -61,6 +61,28 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)getUserInfoWithAppletInfo:(FATAppletInfo *)appletInfo bindGetUserInfo:(void (^)(NSDictionary *result))bindGetUserInfo;
 
 /**
+ 调用获取用户信息API（getUserProfile）
+ @param appletInfo 小程序信息
+ @param bindGetUserProfile 获取用户信息回调
+ result参考格式如下（可由宿主App自定义）：
+{
+    code = 0c19xo000DiCWP1qgw2000xlSi49xo0u;
+    userInfo =  {
+         nickName = "昵称"
+         avatarUrl = “头像地址”
+         gender = "性别"
+         province = "省份"
+         city = "城市"
+         country = "国家"
+         is_demote = 1
+         language = ""
+        }
+}
+ 参考链接：https://www.finclip.com/mop/document/develop/component/form.html#button
+*/
+- (BOOL)getUserProfileWithAppletInfo:(FATAppletInfo *)appletInfo bindGetUserProfile:(void (^)(NSDictionary *result))bindGetUserProfile;
+
+/**
  Button open-type属性为contact，打开客服会话。
  @param appletInfo 小程序信息
  @param sessionFrom 会话来源
@@ -81,6 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
     detail = {
         code = ""换取用户手机号的动态令牌" // 这里参考微信小程序的数据格式，如果宿主app不支持动态令牌功能，可以自定义格式
     }
+    errMsg = "如果想触发失败，则需要添加 errMsg 字段"
  }
  参考链接：https://www.finclip.com/mop/document/develop/component/form.html#button
 */
