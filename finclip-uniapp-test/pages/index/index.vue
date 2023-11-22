@@ -78,9 +78,8 @@
 							'apiServer': 'https://api.finclip.com',
 						}],
 						appletDebugMode: true,
-						disableGetSuperviseInfo: true,
 						uiConfig: {
-							isHideFeedbackAndComplaints: true,
+							isHideFeedbackAndComplaints: false,
 							isHideShareAppletMenu: false,
 							capsuleConfig: {
 								capsuleCornerRadius: 16

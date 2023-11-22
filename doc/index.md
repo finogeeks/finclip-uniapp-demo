@@ -1221,44 +1221,72 @@ GrayItem配置
     MopSdk.registerExtSDK()
 ```
 
-#### 2 注册百度地图SDK
+#### 2 注册地图SDK三选一
 
-##### 参数
+##### 安卓端插件添加地图依赖
+```javascript
+    //在插件package.json的dependencies添加依赖
+    "com.google.android.material:material:1.0.0"
+    //地图相关依赖四选一,如果您的APP已经添加地图模块,下面无需再添加
+    
+    // 高德（建议不低于以下版本，否则可能出现类/方法错误问题）
+    "com.amap.api:3dmap:8.0.0" // 可以替换为您需要的版本号
+    "com.amap.api:location:5.5.1" // 可以替换为您需要的版本号
+    "com.amap.api:search:7.9.0" // 可以替换为您需要的版本号
+
+    // 百度（建议不低于以下版本，否则可能出现类/方法错误问题）
+    "com.baidu.lbsyun:BaiduMapSDK_Map:7.4.0" // 可以替换为您需要的版本号
+    "com.baidu.lbsyun:BaiduMapSDK_Location:9.1.8" // 可以替换为您需要的版本号
+    "com.baidu.lbsyun:BaiduMapSDK_Search:7.4.0" // 可以替换为您需要的版本号
+
+    // 腾讯（建议不低于以下版本，否则可能出现类/方法错误问题）
+    "com.tencent.map:tencent-map-vector-sdk:4.5.9" // 可以替换为您需要的版本号
+    "com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.4.9" // 可以替换为您需要的版本号
+    // 谷歌
+    "com.google.android.gms:play-services-maps:16.1.0" // 可以替换为您需要的版本号（建议使用此版本，不支持此以上版本）
+    "com.google.android.gms:play-services-location:16.0.0" // 可以替换为您需要的版本号（建议使用此版本，不支持此以上版本）
+ 
+
+```
+
+##### 2.1 注册百度地图SDK
+
+###### 参数
 | 配置名称| 类型 | 配置描述 |
 | --- | -- |--- |
 | key | String | 百度key |
 
-##### 示例
+###### 示例
 
 ```JavaScript
     MopSdk.registerBDMapSDK(key)
 ```
 
-#### 3 注册高德地图SDK
-##### 参数
+##### 2.2 注册高德地图SDK
+###### 参数
 | 配置名称| 类型 | 配置描述 |
 | --- | -- |--- |
 | key | String | 高德key |
 
-##### 示例
+###### 示例
 
 ```JavaScript
     MopSdk.registerGDMapSDK(key)
 ```
 
-#### 4 注册腾讯地图SDK
-##### 参数
+##### 2.3 注册腾讯地图SDK
+###### 参数
 | 配置名称| 类型 | 配置描述 |
 | --- | -- |--- |
 | key | String | 腾讯key |
 
-##### 示例
+###### 示例
  
 ```JavaScript
     MopSdk.registerTXMapSDK(key)
 ```
 
-#### 5 注册蓝牙SDK
+#### 3 注册蓝牙SDK
 
 ##### 示例
  
@@ -1266,7 +1294,7 @@ GrayItem配置
     MopSdk.registerBluetoothSDK()
 ```
 
-#### 6 注册联系人SDK
+#### 4 注册联系人SDK
 
 ##### 示例
  
@@ -1274,7 +1302,7 @@ GrayItem配置
     MopSdk.registerContactSDK()
 ```
 
-#### 7 注册贴粘板SDK
+#### 5 注册贴粘板SDK
 
 ##### 示例
  
@@ -1282,7 +1310,7 @@ GrayItem配置
     MopSdk.registerClipboardSDK()
 ```
 
-#### 8 注册直播SDK
+#### 6 注册直播SDK
 
 ##### 示例
  
@@ -1290,7 +1318,7 @@ GrayItem配置
     MopSdk.registerLiveSDK()
 ```
 
-#### 9 注册日历SDK
+#### 7 注册日历SDK
 
 ##### 示例
  
