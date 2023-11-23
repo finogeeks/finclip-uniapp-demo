@@ -1,4 +1,8 @@
-### 版本 2.42.5
+### 版本 2.42.5 
+
+链接: https://pan.baidu.com/s/1tHZtni_MkG3xEcgOzPt3qw   
+提取码: fmpt   
+
 更新时间：2023-11-21  
 
 更新内容：   
