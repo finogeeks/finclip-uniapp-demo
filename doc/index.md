@@ -177,7 +177,7 @@ Uniapp APP项目集成FinClip SDK插件，是通过Uniapp官方提供[插件功�
 | capsuleConfig | CapsuleConfig | 胶囊的配置 |
 | authViewConfig | AuthViewConfig | 授权弹框配置 |
 | navigationBarHeight | Number | 导航栏高度，默认值为44(仅IOS) |
-| useNativeLiveComponent | boolean | 是否使用内置的live组件。默认为NO，当设置为YES时，还需要依赖FATAppletLive扩展SDK(仅IOS) |
+| useNativeLiveComponent | boolean | 是否使用内置的live组件。默认为false，当设置为true时。 |
 | navigationBarTitleTextLayoutGravity | String |导航栏标题相对父控件的Gravity(仅安卓) 可选值：Left、Center|
 | isAlwaysShowBackInDefaultNavigationBar | boolean |是否始终显示返回按钮(仅安卓) |
 | isClearNavigationBarNavButtonBackground | boolean | 是否清除导航栏按钮的背景(仅安卓) |
@@ -1245,7 +1245,6 @@ GrayItem配置
     // 谷歌
     "com.google.android.gms:play-services-maps:16.1.0" // 可以替换为您需要的版本号（建议使用此版本，不支持此以上版本）
     "com.google.android.gms:play-services-location:16.0.0" // 可以替换为您需要的版本号（建议使用此版本，不支持此以上版本）
- 
 
 ```
 
@@ -1315,6 +1314,20 @@ GrayItem配置
 ##### 示例
  
 ```JavaScript
+    //初始化设置
+    MopSdk.initialize({
+    ...,
+    uiConfig: {
+        useNativeLiveComponent: true
+    }
+  },
+  (ret) => {
+    console.log('App Launch Success', ret)
+   },
+   (ret) =>{
+    console.log('App Launch Fail', ret)
+   });
+    //注册
     MopSdk.registerLiveSDK()
 ```
 
