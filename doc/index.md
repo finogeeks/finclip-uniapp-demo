@@ -1322,13 +1322,14 @@ GrayItem配置
     }
   },
   (ret) => {
-    console.log('App Launch Success', ret)
+       console.log('App Launch Success', ret)
+       //注册
+       MopSdk.registerLiveSDK()
    },
    (ret) =>{
     console.log('App Launch Fail', ret)
    });
-    //注册
-    MopSdk.registerLiveSDK()
+   
 ```
 
 #### 7 注册日历SDK
