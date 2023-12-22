@@ -34,6 +34,7 @@
 		<view class="box-item" v-on:click="handleSetUserInfo">设置用户信息</view>
 		<view class="box-item" v-on:click="handleSetRegisteredMoreMenuItems">设置菜单界面按钮</view>
 		<view class="box-item" v-on:click="handleSetGrayAppletVersionConfigs">设置灰度键值</view>
+		<view class="box-item" v-on:click="handleSetPerformanceRecordsCallback">设置性能日志</view>
 		
 		
 		<view class="box-item" v-on:click="handleGetCurrentWebViewURL">webView的URL</view>
@@ -270,6 +271,10 @@
 			handleSetOpenTypeShareAppMessage(){
 				MopSdk.setOpenTypeShareAppMessage((res) => {
 					console.log('分享按钮代理',res)
+					uni.share({
+						provider: "weixin",
+						scene: "WXSceneSession"
+					})
 				})
 			},
 			handleSetShareAppMessage(){
@@ -296,6 +301,11 @@
 					key: 'userId',
 					value: '13500000000'
 				}])
+			},
+			handleSetPerformanceRecordsCallback(){
+				MopSdk.setPerformanceRecordsCallback((res) => {
+					console.log('获取当前小程序性能日志',res)
+				})
 			},
 			handleGetCurrentWebViewURL(){
 				MopSdk.getCurrentWebViewURL((res) =>{

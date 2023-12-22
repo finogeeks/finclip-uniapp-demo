@@ -1033,6 +1033,41 @@ GrayItem配置
     MopSdk.setGrayAppletVersionConfigs(options）
 ```
 
+#### 9 设置获取小程序性能日志
+
+ ##### 参数
+
+| 配置名称| 类型 | 配置描述 |
+| --- | -- |--- |
+| callback | Function | 回调函数 |
+
+##### 示例
+
+```JavaScript
+    MopSdk.setPerformanceRecordsCallback((ret)=>{
+
+    }）
+```
+
+##### 性能统计记录关键字段说明
+| entryType 指标类型| name 指标名称 | 说明 |
+| --- | -- |--- |
+| inner | processLaunch | 进程启动时间 |
+| navigation | appInfo | 小程序详情接口 |
+| loadPackage | downloadPackage | 下载小程序（开始） |
+| navigation | frameworkInfo | 基础库详情接口，开启了基础库预下载的情况不会有该条日志 |
+| loadPackage | downloadFramework | 下载基础库，开启了基础库预下载的情况不会有该条日志 |
+| loadPackage | unzipFramework | 解压基础库，开启了基础库预下载的情况不会有该条日志 |
+| loadPackage | downloadPackage | 下载小程序（完成）|
+| loadPackage | unzipApp | 解压小程序 |
+| navigation | appLaunch | 总启动耗时 |
+| script | frameworkLoad | 基础库加载 |
+| script | evaluateScript | 执行js代码 |
+| script | serviceLoad | 逻辑层执行耗时 |
+| render | frameworkRenderLoad | 视图层基础库加载耗时 |
+| render |  viewRender | 视图层执行耗时 |
+| render |  firstRender | 视图层小程序加载耗时|
+
 ### 小程序WebView管理
 
 #### 1 获取当前小程序webView的URL
