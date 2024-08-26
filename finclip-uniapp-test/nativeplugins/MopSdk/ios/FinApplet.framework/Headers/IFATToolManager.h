@@ -57,4 +57,14 @@
              appletId:(NSString *)appletId
            completion:(void (^)(BOOL success, FATError *error))completion;
 
+/// 删除制定URL对应的cookie
+/// @param URL 制定的URL
+/// @param completionHandler  删除完毕的回调
+- (void)deleteCookiesWithURL:(NSURL *)URL completionHandler:(void (^)(void))completionHandler;
+
+/// 删除所有的cookies
+/// @param completionHandler 删除完毕的回调
+- (void)deleteAllCookiesWithCompletionHandler:(void (^)(void))completionHandler;
+
+
 @end

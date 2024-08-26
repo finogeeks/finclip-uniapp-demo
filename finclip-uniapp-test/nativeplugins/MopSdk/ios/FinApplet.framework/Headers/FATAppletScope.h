@@ -8,8 +8,6 @@
 #import <Foundation/Foundation.h>
 #import "FATConstant.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface FATAppletScope : NSObject<NSCoding>
 
 /**
@@ -40,4 +38,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

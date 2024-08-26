@@ -68,6 +68,23 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return 小程序账号信息
 - (NSDictionary *)localAppletAccountInfo:(FATAppletInfo *)appletInfo FATDeprecated("该api(自2.42.3起)废弃");
 
+
+/**
+ 获取最新的用户加密密钥。
+
+ 此方法根据提供的小程序信息对象 (FATAppletInfo) 来获取相应的用户加密密钥，推荐使用appid+userId的方式。返回的字典包含密钥本身以及其他相关的加密信息。
+
+ @param appletInfo 小程序信息对象，用于确定需要获取密钥的特定用户和小程序。
+
+ @return NSDictionary 返回一个字典，其中包含以下键值对：
+   - iv : 加密算法所需的初始化向量 (NSString)。
+   - version : 密钥版本号。
+   - encryptKey : 用户的加密密钥 (NSString)，通常是经过 Base64 编码的字符串。
+   - expireTime : 密钥的过期时间戳 (NSNumber)，表示为自 1970 年 1 月 1 日以来的毫秒数。
+
+*/
+- (NSDictionary *)getLatestUserKey:(FATAppletInfo *)appletInfo;
+
 @end
 
 @protocol FATLocalInterfaceAppletDelegate <FATLocalAppletDelegate>

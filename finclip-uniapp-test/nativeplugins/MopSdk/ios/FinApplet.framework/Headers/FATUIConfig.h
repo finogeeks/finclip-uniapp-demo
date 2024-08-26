@@ -556,6 +556,11 @@
 @property (nonatomic, assign) BOOL hideShareAppletMenu;
 
 /**
+ 隐藏...弹出菜单中的 【清理缓存】 的菜单，默认为NO
+ */
+@property (nonatomic, assign) BOOL hideClearCacheMenu;
+
+/**
  隐藏...弹出菜单中的 【转发】 的菜单，默认为NO
  */
 @property (nonatomic, assign) BOOL hideForwardMenu;
@@ -589,7 +594,10 @@
  是否自适应暗黑模式。
  如果设置为YES，则更多页面、关于等原生页面会随着手机切换暗黑，也自动调整为暗黑模式
  */
-@property (nonatomic, assign) BOOL autoAdaptDarkMode;
+@property (nonatomic, assign) BOOL autoAdaptDarkMode __attribute__((deprecated("该属性(自2.44.5起)废弃，建议使用themeStyle")));
+
+/// 主题模式，默认FATUserInterfaceLight，浅色模式
+@property (nonatomic, assign) FATUserInterfaceStyle themeStyle;
 
 /**
  要拼接的userAgent字符串。
@@ -627,6 +635,9 @@
  注意：确保工程是支持设置的方向，比如工程只支持竖屏，这里的设置就只能设置为竖屏，否则需要去AppDelegate的代理方法中设置允许的方向
  */
 @property (nonatomic, assign) FATInterfaceOrientation commonUISupportOrientaion;
+
+
+
 
 /**
  默认值为NO。当设置为YES表示使用内置的live组件，此时需要依赖FATAppletLive扩展SDK

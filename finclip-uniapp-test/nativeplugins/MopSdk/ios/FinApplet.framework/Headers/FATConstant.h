@@ -23,6 +23,18 @@ typedef NS_ENUM(NSUInteger, FATTranstionStyle) {
     FATTranstionStylePush, // 页面从右往左弹出，类似push效果
 };
 
+//小程序热启动时的reLaunch模式.
+//小程序热启动时，有的情况下会触发reLaunch，即清空小程序页面栈，创建新的页面入栈。
+//例如：小程序已经打开了3个页面，此时点击右上角关闭，再次打开小程序时，传入了不同的path和query。
+//此时会清空页面栈，再把目标页面入栈，此时页面栈内只有1个页面。
+typedef NS_ENUM(NSUInteger, FATReLaunchMode) {
+    FATReLaunchModeParamsExist,  //只要有启动参数(即包含path 或query)，就执行reLaunch.
+    FATReLaunchModeOnlyParamsDiff, //有启动参数，且启动参数与上一次的启动参数不同时，才执行reLaunch.
+    FATReLaunchModeAlways, //忽略启动参数，每次热启动均执行reLaunch
+    FATReLaunchModeNever   //每次热启动均不执行reLaunch，即热启动永远复用页面栈
+};
+
+
 typedef NS_ENUM(NSUInteger, FATApiCryptType) {
     FATApiCryptTypeMD5, // MD5
     FATApiCryptTypeSM,  // 国密MD5
@@ -30,7 +42,8 @@ typedef NS_ENUM(NSUInteger, FATApiCryptType) {
 
 typedef NS_ENUM(NSUInteger, FATMoreViewStyle) {
     FATMoreViewStyleDefault,
-    FATMoreViewStyleNormal
+    FATMoreViewStyleNormal,
+    FATMoreViewStylePage  //分页显示菜单，2.43.9添加
 };
 
 typedef NS_ENUM(NSUInteger, FATAppletMenuStyle) {
@@ -113,12 +126,34 @@ typedef NS_ENUM(NSUInteger, FATAppletDebugMode) {
 typedef NS_ENUM(NSUInteger, FATProjectType) {
     FATProjectTypeMiniprogram = 0,  // 小程序类型
     FATProjectTypeMinigame,         // 小游戏类型
+    FATProjectTypeWidget,           //小组件类型
     FATProjectTypeHTML5 = 3,             // HTML5类型
 };
 typedef NS_ENUM(NSInteger, FATPageTitleAlignment) {
     FATPageTitleAlignmentCenter    = 0,    // 标题居中
     FATPageTitleAlignmentLeft      = 1,    // 标题居左
 };
+
+
+typedef NS_ENUM(NSInteger, FATUserInterfaceStyle) {
+    FATUserInterfaceLight   = 0,    // 浅色模式
+    FATUserInterfaceDark    = 1,    // 深色模式
+    FATUserInterfaceAuto    = 2,    // 主题模式跟随系统
+};
+
+typedef NS_ENUM(NSInteger, FATFinFilePathType) {
+    FATFinFilePathTmp    = 0,    // tmp目录
+    FATFinFilePathStore    = 1,    // store目录
+    FATFinFilePathUsr    = 2,    // usr目录
+};
+
+
+typedef NS_ENUM(NSInteger, FATAuthDescStrategy) {
+    FATAuthDescStrategyNone   = 0,    // 默认方式，小程序有配置权限说明，显示配置的，没配置则不显示
+    FATAuthDescStrategyShowDefault    = 1,    // 小程序有配置权限说明，显示配置的，没配置显示内置的权限信息
+    FATAuthDescStrategyForbidden     = 2,    //没有设置，不允许申请权限；申请权限会优先判断是否有配置权限描述，没有配置则不允许申请权限，即使设置了自动授权，同时权限申请前置代理方法也不会触发
+};
+
 
 /**
  扩展API处理后的回调
@@ -144,6 +179,20 @@ FOUNDATION_EXTERN FATShareMediaType const FATShareMediaTypeVideo;
 FOUNDATION_EXTERN FATShareMediaType const FATShareMediaTypeWebPage;
 FOUNDATION_EXTERN FATShareMediaType const FATShareMediaTypeMiniProgram;
 
+
+#pragma mark - 小程序网络请求进度回调
+
+typedef NSString *FATNetworkProcessKey NS_REFINED_FOR_SWIFT;
+
+FOUNDATION_EXTERN FATNetworkProcessKey const FATTotalBytesWritten;
+FOUNDATION_EXTERN FATNetworkProcessKey const FATTotalBytesExpectedToWrite;
+FOUNDATION_EXTERN FATNetworkProcessKey const FATTotalBytesSent;
+FOUNDATION_EXTERN FATNetworkProcessKey const FATTotalBytesExpectedToSend;
+FOUNDATION_EXTERN FATNetworkProcessKey const FATProgress;
+FOUNDATION_EXTERN FATNetworkProcessKey const FATHeader;
+FOUNDATION_EXTERN FATNetworkProcessKey const FATTaskId;
+
+
 //权限类型
 typedef NS_ENUM(NSInteger, FATAuthorizationType) {
     FATAuthorizationTypePhoto = 0,
@@ -155,7 +204,8 @@ typedef NS_ENUM(NSInteger, FATAuthorizationType) {
     FATAuthorizationTypeUserProfile = 6,
     FATAuthorizationTypePhoneNumber = 7,
     FATAuthorizationTypeLocationBackground = 8,
-    FATAuthorizationTypeCalendar = 9
+    FATAuthorizationTypeCalendar = 9,
+    FATAuthorizationTypeCustom = 10
 };
 
 //权限申请结果
@@ -165,6 +215,7 @@ typedef NS_ENUM(NSInteger, FATAuthorizationStatus) {
     FATAuthorizationStatusAppDenied = 2,   //app拒绝
     FATAuthorizationStatusAuthorizedBackgroud = 3, // 允许后台定位
 };
+
 //权限类型
 typedef NSString *FATScopeName NS_REFINED_FOR_SWIFT;
 FOUNDATION_EXTERN FATScopeName const FATScopeNamePhoto;         //相册
@@ -202,14 +253,19 @@ FOUNDATION_EXTERN NSString *const FATAppletResetNotification;
 /// 小程序进入后台 ViewController和View可以监听 userInfo:@{@"appletId":appId}
 FOUNDATION_EXTERN NSString *const FATAppletEnterBackgroundNotification;
 
-// 小程序进入前台 ViewController和View可以监听 userInfo:@{@"appletId":appId}
+/// 小程序进入前台 ViewController和View可以监听 userInfo:@{@"appletId":appId}
 FOUNDATION_EXTERN NSString *const FATAppletForegroundNotification;
 
+/// 小程序热启动触发relaunch的通知(只有小程序)    userInfo:@{@"appletId":appId}
+FOUNDATION_EXTERN NSString *const FATAppletRelaunchNotification;
 
 /// 小程序被销毁的通知    userInfo:@{@"appletId":appId}
 FOUNDATION_EXTERN NSString *const FATAppletDestroyNotification;
 
 /// 小程序页面消失的事件  userInfo:@{@"appletId":appId,@"pageId":@(pageId)}
 FOUNDATION_EXTERN NSString *const kFATPageDidDisappearNotification;
+
+// 小程序页面WKWebview进程被中止的通知
+FOUNDATION_EXTERN NSString *const kFATPageWebviewProcessTerminateNotification;
 
 #endif /* FATConstant_h */

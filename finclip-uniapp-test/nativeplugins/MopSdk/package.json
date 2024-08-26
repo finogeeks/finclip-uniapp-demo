@@ -1,7 +1,7 @@
 {
 	"name": "MopSdk",
 	"id": "MopSdk",
-	"version": "2.42.5",
+	"version": "2.45.5",
 	"description": "FinClip小程序插件",
 	"_dp_type": "nativeplugins",
 	"_dp_nativeplugin": {

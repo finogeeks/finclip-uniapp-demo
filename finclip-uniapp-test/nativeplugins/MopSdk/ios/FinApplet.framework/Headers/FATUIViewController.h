@@ -17,7 +17,8 @@
 //计算安全区域底部的高度，需在viewWillLayoutSubviews中调用才会返回准确值
 - (CGFloat)calculateSafeAreaBottom;
 
-
+//页面支持的设备方向，子类重写
+- (UIInterfaceOrientationMask)fat_pageSupportedInterfaceOrientations;
 /// //转换方向
 /// - Parameter orientation: 凡泰定义的方向值，FATInterfaceOrientationNone会转换成UIInterfaceOrientationMaskAll
 -(UIInterfaceOrientationMask)convertInterfaceOrientation:(FATInterfaceOrientation)orientation;

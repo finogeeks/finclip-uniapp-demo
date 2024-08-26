@@ -27,6 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy) NSString *currentUserId;
 
+/** 渠道，如果不填，默认为项目的 bundleId  */
+@property (nonatomic, copy) NSString *channel;
+
+/** 手机号，非必传 */
+@property (nonatomic, copy) NSString *phone;
+
 /**
  产品的标识，非必传，默认为存储目录里的finclip，finogeeks和userAgent里的finogeeks
  */
@@ -96,6 +102,11 @@ apm 统计的扩展信息
  当设置为FATAppletDebugModeForbiddenRelease时，仅正式版强制关闭vConsole，且不可开启，其他版本效果同FATAppletDebugModeDefault一样。
  */
 @property (nonatomic, assign) FATAppletDebugMode appletDebugMode;
+
+/**
+ iOS 16.4 以后是否支持WebView调试，默认为NO
+ */
+@property (nonatomic, assign) BOOL webViewInspectable;
 
 /**
  是否显示水印
@@ -178,6 +189,23 @@ apm 统计的扩展信息
  SDK外部校验Key
  */
 @property (nonatomic, copy) NSString *finkey;
+
+
+/// 周期性更新的时间间隔(小时), 设置为0不会发起周期性更新请求和触发预拉取请求，接收设置范围为3-12小时，默认是12小时
+@property (nonatomic, assign) NSInteger backgroundFetchPeriod;
+/**
+ 表示用于选择器区域的文件路径。
+
+ 这个属性可以用于指定一个自定义的文件路径，用于加载和展示区域数据。当设置此属性时，选择器将尝试从指定路径加载数据。
+ 如果此属性为空或未设置，选择器将加载默认的区域数据。
+
+ @note 文件路径可以是应用的沙盒目录中的路径，也可以是包含在应用Bundle中的文件名。
+ */
+@property (nonatomic, copy, nullable) NSString *pickerRegionPath;
+
+
+/// 权限说明信息未配置时的策略，详细说明可以查看FATAuthDescStrategy
+@property (nonatomic, assign) FATAuthDescStrategy  authDescStrategy;
 
 #pragma mark - method
 /// 创建config对象

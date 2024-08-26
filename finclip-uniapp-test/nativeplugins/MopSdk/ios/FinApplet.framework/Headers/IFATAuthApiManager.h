@@ -29,11 +29,15 @@
 /// @param pageConfig 页面的I配置，如返回按钮图片 标题位置
 - (void)openPrivacyManage:(UIViewController *)parentViewController pageConfig:(FATExternalPageConfig *)pageConfig;
 
-
-/// 获取小程序的隐私协议配置
+/// 获取小程序的隐私协议配置(仅可获取打开过的小程序隐私配置)
 /// @param appletId  小程序id
 /// @param complete  结果回调，privacyInfo包含隐私配置相关信息
 - (void)getAppletPrivacyInfo:(NSString *)appletId complete:(void (^)(FATPrivacyInfo *privacyInfo, FATError *error))complete;
+
+/// 获取小程序的隐私协议配置（可获取未打开过的小程序隐私配置）
+/// @param appletId  小程序id
+/// @param completion  结果回调，privacyInfo包含隐私配置相关信息
+- (void)getAppletPrivacyInfoWithAppletId:(NSString *)appletId apiServer:(NSString *)apiServer completion:(void (^)(FATPrivacyInfo *privacyInfo, FATError *error))completion;
 
 /// 获取小程序权限设置
 /// @param appletId  小程序id

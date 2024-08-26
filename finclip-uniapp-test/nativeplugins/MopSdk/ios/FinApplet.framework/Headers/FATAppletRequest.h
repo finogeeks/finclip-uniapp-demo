@@ -90,6 +90,9 @@
 */
 @property (nonatomic, copy) NSDictionary<FATStartParamKey, NSString *> *startParams;
 
+//小程序热启动时的reLaunch模式
+@property (nonatomic, assign) FATReLaunchMode reLaunchMode;
+
 /**
 打开小程序时的转场动画方式
 */
@@ -190,6 +193,9 @@
 */
 @property (nonatomic, assign) BOOL animated;
 
+//小程序热启动时的reLaunch模式
+@property (nonatomic, assign) FATReLaunchMode reLaunchMode;
+
 @end
 
 @interface FATAppletQrCodeRequest : NSObject
@@ -213,6 +219,9 @@
 是否动画，默认为YES
 */
 @property (nonatomic, assign) BOOL animated;
+
+//小程序热启动时的reLaunch模式
+@property (nonatomic, assign) FATReLaunchMode reLaunchMode;
 
 
 @end
@@ -333,7 +342,6 @@
  强制更新
  */
 @property (nonatomic, assign) BOOL forceUpdate;
-
 
 @end
 

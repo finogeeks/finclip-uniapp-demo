@@ -8,17 +8,28 @@
 
 #import <UIKit/UIKit.h>
 #import "FATConstant.h"
+#import "FATLibraryModel.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface FATAppletSimpleInfo : NSObject
 /// 小程序id
 @property (nonatomic, copy) NSString *appId;
 
 @end
+NS_ASSUME_NONNULL_END
+
+//============================================================================================================
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface FATAppletInfo : NSObject
 
 /// 小程序id
 @property (nonatomic, copy) NSString *appId;
+
+/// 小程序codeId
+@property (nonatomic, copy) NSString *codeId;
 
 /// 小程序开发者userId
 @property (nonatomic, copy) NSString *userId;
@@ -85,6 +96,11 @@
 @property (nonatomic, copy) NSArray *menuInfoList;
 
 /**
+ 小程序新的菜单列表，会包含内置菜单和自定义菜单
+ */
+@property (nonatomic, copy) NSArray *allMenuInfoList;
+
+/**
  小程序自定义的api
  */
 @property (nonatomic, copy) NSArray *apiInfo;
@@ -143,6 +159,8 @@
 /// 小程序是否已安装 （其实类似收藏）
 @property (nonatomic, assign) BOOL installed;
 
+/// 基础库信息
+@property (nonatomic, strong) FATLibraryModel *libraryInfo;
 
 /**
 
@@ -156,7 +174,28 @@
  */
 @property (nonatomic, assign) FATInterfaceOrientation appletPageOrientation;
 
+/**
+ 小程序信息对应的字典信息，可能为nil
+ 值只会在以下场景进行存储
+ - (instancetype)initWithAppletDict:(NSDictionary *)appletDict
+ - (void)updateWithAppletDict:(NSDictionary *)appletDict appletVersionType:(FATAppletVersionType)appletVersionType
+ */
+@property (nonatomic, strong, readonly) NSDictionary * _Nullable appletInfoDict;
+
+/** 
+ 是否有指定基础库信息
+ 如果小程序信息中有指定基础库信息，则为YES
+ 如果小程序信息中没有指定基础库信息，则为NO, 默认会去取服务器中最新的基础库信息
+ */
+@property (nonatomic, assign) BOOL appointLibraryVersion;
+
 @end
+
+
+
+//============================================================================================================
+
+
 
 @interface FATFetchAppletInfo : NSObject
 
@@ -229,7 +268,7 @@
 @property (nonatomic, copy) NSArray *appTag;
 
 /**
- 判断是否开启了按需注入  packageConfig:{isLazyLoading:boolean,entryPath:string}
+ 判断是否开启了按需注入  packageConfig:{isLazyLoading:boolean,entryPagePath:string}
  */
 @property (nonatomic, copy) NSDictionary *packageConfig;
 
@@ -237,6 +276,13 @@
  项目类型
  */
 @property (nonatomic, assign) FATProjectType projectType;
+
+
+/// 预拉取小程序数据的接口地址
+@property (nonatomic, copy) NSString *preFetchUrl;
+
+/// 周期性更新小程序内容的接口地址
+@property (nonatomic, copy) NSString *backgroundFetchUrl;
 
 ///**
 // 小程序信息的原数据
@@ -270,3 +316,5 @@
 //@property (nonatomic, copy) NSDictionary *originData;
 
 @end
+
+NS_ASSUME_NONNULL_END

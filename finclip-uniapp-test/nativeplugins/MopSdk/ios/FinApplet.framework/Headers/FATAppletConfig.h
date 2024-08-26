@@ -7,8 +7,6 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 typedef NS_ENUM(NSInteger, FATAppletConfigStatus) {
     FATAppletConfigNone,     //没有设置，空值
     FATAppletConfigPositive, //true值
@@ -29,4 +27,3 @@ typedef NS_ENUM(NSInteger, FATAppletConfigStatus) {
 
 @end
 
-NS_ASSUME_NONNULL_END

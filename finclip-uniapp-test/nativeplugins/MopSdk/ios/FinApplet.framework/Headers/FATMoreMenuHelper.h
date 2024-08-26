@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "FATAppletInfo.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface FATMoreMenuHelper : NSObject
 
 /// 触发转发事件，用来获取转发时用到的小程序信息， 获取到小程序信息后，会触发- (void)forwardAppletWithInfo:(NSDictionary *)contentInfo completion:(void (^)(FATExtensionCode, NSDictionary *))completion 这个回调
@@ -52,4 +50,3 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END

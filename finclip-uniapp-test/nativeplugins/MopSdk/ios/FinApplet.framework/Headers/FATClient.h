@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 #import "FATConfig.h"
 #import "FATUIConfig.h"
 #import "FATConstant.h"
 #import "FATAppletInfo.h"
-#import "FATAppletDelegate.h"
 #import "IFATNativeViewManager.h"
 #import "IFATXLogManager.h"
 #import "IFATToolManager.h"
@@ -21,9 +21,17 @@
 #import "FATSearchAppletRequest.h"
 #import "FATError.h"
 #import "FATAppletConfig.h"
+#import "FATAuthModel.h"
+#import "FATBaseLoadingView.h"
+#import "FATAppletScope.h"
+#import "FATScopeChecker.h"
+#import "FATWidgetManager.h"
+
+#import "FATAppletDelegate.h"
 #import "FATAppletButtonOpenTypeDelegate.h"
 #import "FATAppletLifeCycleDelegate.h"
 #import "FATAppletMoreMenuDelegate.h"
+#import "FATAppletNetworkDelegate.h"
 #import "FATLocalAppletDelegate.h"
 #import "FATAppletConfigurationDelegate.h"
 #import "FATAppletWaterMaskAndScreenCaptureDelegate.h"
@@ -31,12 +39,10 @@
 #import "FATAppletMenuShareItemDelegate.h"
 #import "FATAppletAppJsonDelegate.h"
 #import "FATAppletAuthDelegate.h"
-#import "FATAuthModel.h"
 #import "FATInitConfigVerifyDelegate.h"
-#import "FATBaseLoadingView.h"
 #import "FATAppletLoadingPageLifeCycleDelegate.h"
-#import "FATAppletScope.h"
-#import "FATScopeChecker.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface FATClient : NSObject
 
@@ -74,6 +80,11 @@
  右上角胶囊和更多按钮中自定义的菜单相关的代理事件
  */
 @property (nonatomic, weak) id<FATAppletMoreMenuDelegate> moreMenuDelegate;
+
+/**
+ FATAppletNetworkDelegate 协议定义了与网络请求相关的可选方法集合，包含网络请求、文件上传和下载。
+ */
+@property (nonatomic, weak) id<FATAppletNetworkDelegate> networkDelegate;
 
 /**
  自定义关于页面相关的代理事件
@@ -134,6 +145,8 @@
 */
 @property (nonatomic, strong) id<IFATAuthApiManager> authApiManager;
 
+//小组件相关API管理器
+@property (nonatomic, strong) FATWidgetManager *widgetManager;
 
 
 + (instancetype)sharedClient;
@@ -147,7 +160,7 @@
 /// @param config 配置对象
 /// @param uiConfig UI配置对象
 /// @param error 初始化失败时返回的error
-- (BOOL)initWithConfig:(FATConfig *)config uiConfig:(FATUIConfig *)uiConfig error:(NSError **)error;
+- (BOOL)initWithConfig:(FATConfig *)config uiConfig:(nullable FATUIConfig *)uiConfig error:(NSError **)error;
 
 /*
  处理URL
@@ -186,20 +199,20 @@
 @param animated 是否显示动画
 @param completion 关闭完成的回调
 */
-- (void)closeCurrentApplet:(BOOL)animated completion:(dispatch_block_t)completion;
+- (void)closeCurrentApplet:(BOOL)animated completion:(nullable dispatch_block_t)completion;
 
 /**
 关闭打开的指定小程序
 @param animated 是否显示动画
 @param completion 关闭完成的回调
 */
-- (void)closeApplet:(NSString *)appletId animated:(BOOL)animated completion:(dispatch_block_t)completion;
+- (void)closeApplet:(NSString *)appletId animated:(BOOL)animated completion:(nullable dispatch_block_t)completion;
 
 /**
 关闭当前打开的所有小程序
 @param completion 关闭完成的回调
 */
-- (void)closeAllAppletsWithCompletion:(dispatch_block_t)completion;
+- (void)closeAllAppletsWithCompletion:(nullable dispatch_block_t)completion;
 
 #pragma mark - remove applet
 /**
@@ -287,6 +300,11 @@
  */
 - (BOOL)fat_registerWebApi:(NSString *)webApiName handler:(void (^)(FATAppletInfo *appletInfo, id param, FATExtensionApiCallback callback))handler;
 
+/// 向WKWebView注入指定scheme的handler
+/// @param urlSchemeHandler scheme的handler对象
+/// @param urlScheme  scheme字符串
+- (BOOL)registerWkWebViewURLSchemeHandler:(nullable id <WKURLSchemeHandler>)urlSchemeHandler forURLScheme:(NSString *)urlScheme API_AVAILABLE(ios(11.0));
+
 /**
  原生调用HTML中的JS函数（前台运行的小程序）
  @param eventName 函数名
@@ -316,6 +334,7 @@
  */
 - (UIView *)fat_getCoverViewWithViewId:(NSString *)viewId;
 
+
 /**
  保存文件到小程序的缓存路径
  
@@ -337,6 +356,13 @@
 */
 - (NSString *)fat_absolutePathWithPath:(NSString *)path;
 
+
+/// 将finfile路径转换成真实路径,如果传入的finfilePath不是finfile协议，返回nil
+/// appletId 小程序id，可不传，不传时会去获取当前小程序di(有可能为空)
+/// @param finfilePath  finfile路径
+/// @param needFileExist  是否需要文件存在，传YES，如果传入的finfle路径的文件不存在，返回nil；传NO，不管文件是否存在，都返回对应的路径
+- (NSString *)absolutePathWithAppletId:(NSString *_Nullable)appletId finFilePath:(NSString *)finfilePath needFileExist:(BOOL)needFileExist;
+
 /**
  获取小程序内文件的完整路径，或临时文件的完整路径
  
@@ -345,6 +371,14 @@
  */
 - (NSString *)getFileAddressWithfileName:(NSString *)fileName;
 
+/**
+ 生成Finfile协议路径
+ 
+ @param fileName 文件名,dirType为FATFinFileDirUsr支持带路径，如/aaa/abc.jpg，其他类型不支持带路径
+ @param pathType  Finfile的目录类型，详情参考FATFinFilePathType
+ @return FinFile协议的路径
+ */
+- (NSString *)generateFinFilePath:(NSString *)fileName pathType:(FATFinFilePathType)pathType;
 /**
  生成当前页面截图
  宽高比是5:4
@@ -423,8 +457,8 @@
 /// @param closeCompletion 关闭小程序时的回调
 - (void)startAppletWithRequest:(FATAppletRequest *)request
         InParentViewController:(UIViewController *)parentVC
-                    completion:(void (^)(BOOL result, FATError *error))completion
-               closeCompletion:(dispatch_block_t)closeCompletion;
+                    completion:(nullable void (^)(BOOL result, FATError *error))completion
+               closeCompletion:(nullable dispatch_block_t)closeCompletion;
 
 /// 解密信息，并启动小程序
 /// @param request 加密信息的request
@@ -433,8 +467,8 @@
 /// @param closeCompletion 关闭小程序时的回调
 - (void)startAppletWithDecryptRequest:(FATAppletDecryptRequest *)request
                InParentViewController:(UIViewController *)parentVC
-                           completion:(void (^)(BOOL result, FATError *error))completion
-                      closeCompletion:(dispatch_block_t)closeCompletion;
+                           completion:(nullable void (^)(BOOL result, FATError *error))completion
+                      closeCompletion:(nullable dispatch_block_t)closeCompletion;
 
 /// 二维码信息启动小程序
 /// @param request 请求对象
@@ -444,9 +478,9 @@
 /// @param closeCompletion 关闭小程序时的回调
 - (void)startAppletWithQrCodeRequest:(FATAppletQrCodeRequest *)request
               inParentViewController:(UIViewController *)parentVC
-                        requestBlock:(void (^)(BOOL result, FATError *error))requestBlock
-                          completion:(void (^)(BOOL result, FATError *error))completion
-                     closeCompletion:(dispatch_block_t)closeCompletion;
+                        requestBlock:(nullable void (^)(BOOL result, FATError *error))requestBlock
+                          completion:(nullable void (^)(BOOL result, FATError *error))completion
+                     closeCompletion:(nullable dispatch_block_t)closeCompletion;
 
 /// 启动本地离线小程序
 /// @param request 请求对象
@@ -455,11 +489,18 @@
 /// @param closeCompletion 关闭小程序时的回调
 - (void)startLocalAppletWithRequest:(FATAppletBaseRequest *)request
              inParentViewController:(UIViewController *)parentVC
-                         completion:(void (^)(BOOL result, FATError *error))completion
-                    closeCompletion:(dispatch_block_t)closeCompletion;
+                         completion:(nullable void (^)(BOOL result, FATError *error))completion
+                    closeCompletion:(nullable dispatch_block_t)closeCompletion;
 
 
 #pragma mark - search applet
+
+/// 获取应用绑定的小程序列表
+/// @param request 请求对象（参数在对象内）
+/// @param completion 完成的回调
+- (void)getBindAppletsWithRequest:(FATFetchBindAppletRequest *)request completion:(void (^)(FATFetchBindAppletResponse *response, FATError *aError))completion;
+
+
 /// 搜索小程序
 /// @param request 搜索的request
 /// @param completion 搜索结果
@@ -539,8 +580,8 @@
     InParentViewController:(UIViewController *)parentVC
            transitionStyle:(FATTranstionStyle)transitionStyle
                   animated:(BOOL)animated
-                completion:(void (^)(BOOL result, NSError *error))completion
-           closeCompletion:(dispatch_block_t)closeCompletion __attribute__((deprecated("该api(自2.23.5起)废弃，请使用startAppletWithRequest:InParentViewController:completion:closeCompletioncloseCompletion")));
+                completion:(nullable void (^)(BOOL result, NSError *error))completion
+           closeCompletion:(nullable dispatch_block_t)closeCompletion __attribute__((deprecated("该api(自2.23.5起)废弃，请使用startAppletWithRequest:InParentViewController:completion:closeCompletioncloseCompletion")));
 
 /**
  打开服务器上的小程序，带提交序列、动画参数
@@ -614,3 +655,5 @@
 - (BOOL)fat_registerWebApi:(NSString *)webApiName handle:(void (^)(id param, FATExtensionApiCallback callback))handler __attribute__((deprecated("该api(自2.36.7起)废弃，请使用 -fat_registerWebApi:handler:")));
 
 @end
+
+NS_ASSUME_NONNULL_END

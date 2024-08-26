@@ -1,7 +1,6 @@
 <template>
 	<view class="box">
 		<view class="box-item" v-on:click="handleSDKInit">初始化SDK</view>
-		
 		<view class="box-item" v-on:click="handleMiniProgramLifecycle">小程序生命周期</view>
 		<view class="box-item" v-on:click="handleOpenMiniProgram">打开小程序</view>
 		<view class="box-item" v-on:click="handleOpenMiniProgramByQrcode">二维码打开小程序</view>
@@ -78,13 +77,9 @@
 							'sdkSecret': '7dccd26f1774f6a0',
 							'apiServer': 'https://api.finclip.com',
 						}],
-						appletDebugMode: true,
+						locale: 'en',
 						uiConfig: {
-							isHideFeedbackAndComplaints: false,
-							isHideShareAppletMenu: false,
-							capsuleConfig: {
-								capsuleCornerRadius: 16
-							}
+							hideTechSupport: true
 						}
 					}, (ret) => {
 						console.log('App Launch Success', ret)

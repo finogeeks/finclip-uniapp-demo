@@ -44,7 +44,7 @@ typedef NS_ENUM(NSUInteger, FATErrorCode) {
     // 11011安卓独占（预加载小程序包文件不存在）
     FATErrorCodeSDKNotInitialized = 11012,                  // SDK 未初始化（新增）
     // 从11012之后新增
-
+    FATErrorCodeNotSupportProjectType = 11013,                  // 不支持打开的项目类型，比如用小组件的API启动小程序
 #pragma mark - 12000+（和网络请求相关场景）
     FATErrorCodeNetworkRequestFailed = 12000,               // 服务器接口请求失败
     FATErrorCodeRequestFailed = 12001,                      // 服务异常，接口请求失败
@@ -164,6 +164,6 @@ typedef NS_ENUM(NSUInteger, FATErrorCode) {
 
 + (instancetype)errorWithNSError:(NSError *)error;
 
-- (BOOL)is40x;
+- (BOOL)shouldShowAlertWhenCheckUpdate;
 
 @end
